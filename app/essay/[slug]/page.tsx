@@ -26,12 +26,10 @@ export default async function EssayPage({
     notFound()
   }
 
-  // Parse sources (format: "Author (Year) Title;;Author (Year) Title")
   const sources = essay.sources
     ? essay.sources.split(';;').filter(Boolean)
     : []
 
-  // Parse organizations (format: "Name|Description|url;;Name|Description|url")
   const organizations = essay.organizations
     ? essay.organizations.split(';;').filter(Boolean).map((org: string) => {
         const [name, description, url] = org.split('|')
@@ -43,7 +41,6 @@ export default async function EssayPage({
     <main className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Image - Full Bleed */}
       <div className="w-full h-[70vh] relative">
         {essay.heroImage ? (
           <Image
@@ -63,30 +60,23 @@ export default async function EssayPage({
         )}
       </div>
 
-      {/* Article Header */}
       <article className="max-w-content mx-auto px-6 py-16">
-        {/* Meta */}
         <div className="flex items-center gap-4 text-meta uppercase tracking-[0.15em] text-gray-500 mb-6">
           <span>{essay.readTime}</span>
         </div>
 
-        {/* Title */}
         <h1 className="font-display text-[clamp(2.5rem,8vw,5rem)] font-bold leading-[0.95] mb-4">
           {essay.title}
         </h1>
 
-        {/* Subtitle */}
         <p className="font-display text-[clamp(1.25rem,3vw,1.75rem)] italic text-gray-600 mb-12">
           {essay.subtitle}
         </p>
 
-        {/* Divider */}
         <hr className="border-t-2 border-black mb-12" />
 
-        {/* Body */}
         <EssayBody content={essay.body} />
 
-        {/* Sources */}
         {sources.length > 0 && (
           <>
             <hr className="border-t border-gray-200 my-12" />
@@ -95,7 +85,7 @@ export default async function EssayPage({
                 Sources
               </h2>
               <div className="text-sm text-gray-600 space-y-2">
-                {sources.map((source, index) => (
+                {sources.map((source: string, index: number) => (
                   <p key={index}>{source}</p>
                 ))}
               </div>
@@ -103,7 +93,6 @@ export default async function EssayPage({
           </>
         )}
 
-        {/* Organizations */}
         {organizations.length > 0 && (
           <>
             <hr className="border-t border-gray-200 my-12" />
@@ -135,7 +124,6 @@ export default async function EssayPage({
           </>
         )}
 
-        {/* Credits */}
         <hr className="border-t border-gray-200 my-12" />
         <footer className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-gray-500">
           {essay.textBy && <span>Text — {essay.textBy}</span>}

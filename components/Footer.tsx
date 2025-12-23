@@ -6,11 +6,8 @@ export default async function Footer() {
 
   return (
     <footer className="bg-white border-t-2 border-black">
-      {/* Main Footer */}
       <div className="max-w-[1400px] mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          
-          {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
               <svg 
@@ -30,7 +27,6 @@ export default async function Footer() {
             </p>
           </div>
 
-          {/* Essays */}
           <div>
             <h4 className="font-display font-bold text-sm uppercase tracking-wider mb-4">
               Essays
@@ -44,7 +40,6 @@ export default async function Footer() {
             </ul>
           </div>
 
-          {/* About */}
           <div>
             <h4 className="font-display font-bold text-sm uppercase tracking-wider mb-4">
               About
@@ -60,7 +55,6 @@ export default async function Footer() {
         </div>
       </div>
 
-      {/* Legal Bar - Content from Nexus */}
       <div className="border-t border-gray-200">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
           <p>{footerConfig.copyrightText}</p>

@@ -10,18 +10,13 @@ export const revalidate = 0
 
 export default async function Home() {
   const essays = await getEssays()
-  
-  // Sort by order field
   const sortedEssays = essays.sort((a, b) => (Number(a.order) || 999) - (Number(b.order) || 999))
-  
-  // Get featured essay (first one) and the rest
   const [featured, ...rest] = sortedEssays
   
   return (
     <main className="min-h-screen bg-white">
       <Header />
       
-      {/* Masthead */}
       <section className="border-b-2 border-black">
         <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
           <h1 className="font-display text-[clamp(3.5rem,12vw,10rem)] font-bold leading-[0.85] tracking-[-0.03em]">
@@ -34,11 +29,9 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Featured Story */}
       {featured && (
         <section className="max-w-[1400px] mx-auto px-6 py-12 border-b-2 border-black">
           <Link href={`/essay/${featured.slug}`} className="group grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Image */}
             <div className="aspect-[4/5] relative overflow-hidden bg-gray-100">
               {featured.heroImage ? (
                 <Image
@@ -52,24 +45,19 @@ export default async function Home() {
               )}
             </div>
             
-            {/* Content */}
             <div className="flex flex-col justify-center">
-              {/* Title */}
               <h2 className="font-display text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] mb-4 group-hover:text-accent transition-colors">
                 {featured.title}
               </h2>
               
-              {/* Subtitle */}
               <p className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] italic text-gray-600 mb-6">
                 {featured.subtitle}
               </p>
               
-              {/* Excerpt */}
               <p className="text-lg text-gray-700 leading-relaxed max-w-xl">
                 {featured.excerpt}
               </p>
               
-              {/* Read more */}
               <p className="mt-8 text-sm font-medium uppercase tracking-wider text-accent">
                 Read essay →
               </p>
@@ -78,7 +66,6 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Essay Grid - Vertical Cards like Slow Morocco */}
       {rest.length > 0 && (
         <section className="max-w-[1400px] mx-auto px-6 py-16">
           <h2 className="font-display text-2xl font-bold uppercase tracking-wider mb-12">
@@ -99,7 +86,6 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Newsletter Section */}
       <section className="bg-black text-white py-20">
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="max-w-2xl">

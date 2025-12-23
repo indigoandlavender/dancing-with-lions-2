@@ -12,7 +12,6 @@ export default async function PrivacyPage() {
     <main className="min-h-screen bg-white">
       <Header />
       
-      {/* Page Header */}
       <section className="border-b border-gray-200">
         <div className="max-w-[1400px] mx-auto px-6 py-12">
           <h1 className="font-display text-3xl font-bold">
@@ -21,7 +20,6 @@ export default async function PrivacyPage() {
         </div>
       </section>
 
-      {/* Content */}
       <section className="max-w-content mx-auto px-6 py-12">
         <div className="prose prose-gray max-w-none">
           {page?.content ? (

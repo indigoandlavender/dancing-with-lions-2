@@ -9,9 +9,7 @@ export default function Header() {
   return (
     <header className="border-b border-gray-200">
       <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          {/* Lion Icon */}
           <svg 
             width="32" 
             height="32" 
@@ -26,7 +24,6 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
           <Link 
             href="/essays" 
@@ -42,7 +39,6 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Mobile Menu Button */}
         <button 
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden p-2"
@@ -56,7 +52,6 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {menuOpen && (
         <nav className="md:hidden border-t border-gray-200 px-6 py-4 space-y-4">
           <Link 

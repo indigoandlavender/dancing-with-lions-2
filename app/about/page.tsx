@@ -6,7 +6,6 @@ export default function AboutPage() {
     <main className="min-h-screen bg-white">
       <Header />
       
-      {/* Page Header */}
       <section className="border-b-2 border-black">
         <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
           <h1 className="font-display text-[clamp(3rem,10vw,6rem)] font-bold leading-[0.9] tracking-[-0.03em]">
@@ -15,7 +14,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Content */}
       <section className="max-w-content mx-auto px-6 py-16">
         <div className="prose prose-lg">
           <p className="text-xl leading-relaxed text-gray-700 mb-8">

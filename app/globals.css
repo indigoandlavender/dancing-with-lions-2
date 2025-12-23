@@ -32,13 +32,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Selection */
 ::selection {
   background: var(--accent);
   color: white;
 }
 
-/* Scrollbar - minimal */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -55,32 +53,27 @@ body {
   background: #999;
 }
 
-/* Typography */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-weight: 700;
 }
 
-/* Links */
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* Images */
 img {
   max-width: 100%;
   height: auto;
 }
 
-/* Horizontal rule */
 hr {
   border: none;
   border-top: 2px solid var(--foreground);
   margin: 3rem 0;
 }
 
-/* Essay body content styling */
 .essay-content {
   font-size: 1.125rem;
   line-height: 1.85;
@@ -99,7 +92,6 @@ hr {
   margin-bottom: 1.5rem;
 }
 
-/* Pull quotes */
 .essay-content blockquote {
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 4vw, 2.5rem);
@@ -112,7 +104,6 @@ hr {
   color: #000;
 }
 
-/* Contained images in essays */
 .essay-content .contained-image {
   margin: 3rem 0;
 }
@@ -129,7 +120,6 @@ hr {
   letter-spacing: 0.08em;
 }
 
-/* Full bleed images in essays */
 .full-bleed-image {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
@@ -153,7 +143,6 @@ hr {
   letter-spacing: 0.08em;
 }
 
-/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -186,7 +175,6 @@ hr {
 .animation-delay-200 { animation-delay: 0.2s; }
 .animation-delay-300 { animation-delay: 0.3s; }
 
-/* Utility */
 .text-balance {
   text-wrap: balance;
 }

@@ -37,7 +37,6 @@ export async function getLegalPages(): Promise<LegalPage[]> {
     const rows = response.data.values;
     if (!rows || rows.length < 2) return [];
 
-    const headers = rows[0];
     return rows.slice(1).map((row) => ({
       slug: row[0] || '',
       title: row[1] || '',
@@ -79,7 +78,6 @@ export async function getFooterConfig(): Promise<FooterConfig> {
       }
     });
 
-    // Parse footer links (format: "Privacy|/privacy,Terms|/terms")
     const linksString = config['footer_links'] || '';
     const footerLinks = linksString
       .split(',')

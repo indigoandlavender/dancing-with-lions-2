@@ -19,7 +19,6 @@ export default function EssayCard({
   return (
     <article className="group">
       <Link href={`/essay/${slug}`} className="block">
-        {/* Image */}
         <div className={`relative overflow-hidden bg-gray-100 ${featured ? 'aspect-[4/5]' : 'aspect-[3/4]'}`}>
           {heroImage ? (
             <Image
@@ -33,12 +32,10 @@ export default function EssayCard({
           )}
         </div>
         
-        {/* Title */}
         <h3 className={`font-display font-bold leading-tight mt-4 mb-2 group-hover:text-accent transition-colors ${featured ? 'text-2xl' : 'text-xl'}`}>
           {title}
         </h3>
         
-        {/* Subtitle */}
         <p className="font-display text-base italic text-gray-500">
           {subtitle}
         </p>

@@ -28,10 +28,9 @@ export async function getEssays() {
 
     const headers = rows[0];
     const essays = rows.slice(1).map((row) => {
-      const essay: Record<string, any> = {};
+      const essay: Record<string, string> = {};
       headers.forEach((header: string, index: number) => {
         let value = row[index] || '';
-        // Convert <br> tags back to newlines
         if (typeof value === 'string') {
           value = value.replace(/<br>/g, '\n');
         }
@@ -40,7 +39,6 @@ export async function getEssays() {
       return essay;
     });
 
-    // Filter published essays only
     return essays.filter((essay) => {
       const pub = String(essay.published || '').toLowerCase().trim();
       return pub === 'true' || pub === 'yes' || pub === '1';
