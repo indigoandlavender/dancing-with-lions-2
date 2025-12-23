@@ -8,6 +8,7 @@ interface Slide {
   type: 'image' | 'title' | 'credits'
   imageUrl?: string
   caption?: string
+  text?: string
   title?: string
   subtitle?: string
   textBy?: string
@@ -42,15 +43,58 @@ interface EssaySlideshowProps {
 export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
 
-  // Build slides array - SIMPLE: hero, title, images, credits
+  // Parse body text by [IMAGE:X] markers
+  const parseBodyText = (body: string): Map<number, string> => {
+    const textMap = new Map<number, string>()
+    
+    // Replace <br> tags with spaces, clean up
+    const cleanBody = body
+      .replace(/<br><br>/g, ' ')
+      .replace(/<br>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+    
+    // Split by [IMAGE:X] pattern
+    const parts = cleanBody.split(/\[IMAGE:\d+\]/)
+    const markers = cleanBody.match(/\[IMAGE:(\d+)\]/g) || []
+    
+    // Text before first marker goes to hero (index 0)
+    if (parts[0]?.trim()) {
+      textMap.set(0, truncateText(parts[0].trim(), 180))
+    }
+    
+    // Map remaining text to their image indices
+    markers.forEach((marker, idx) => {
+      const imageNum = parseInt(marker.match(/\d+/)?.[0] || '0')
+      const textContent = parts[idx + 1]?.trim()
+      if (textContent) {
+        textMap.set(imageNum, truncateText(textContent, 180))
+      }
+    })
+    
+    return textMap
+  }
+
+  // Truncate text to character limit, ending at word boundary
+  const truncateText = (text: string, maxLength: number): string => {
+    if (text.length <= maxLength) return text
+    const truncated = text.substring(0, maxLength)
+    const lastSpace = truncated.lastIndexOf(' ')
+    return truncated.substring(0, lastSpace) + '...'
+  }
+
+  const bodyTextMap = parseBodyText(essay.body)
+
+  // Build slides array
   const slides: Slide[] = []
 
-  // Slide 1: Hero image
+  // Slide 1: Hero image with intro text
   if (essay.heroImage) {
     slides.push({
       type: 'image',
       imageUrl: essay.heroImage,
       caption: essay.heroCaption,
+      text: bodyTextMap.get(0),
     })
   }
 
@@ -61,14 +105,15 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
     subtitle: essay.subtitle,
   })
 
-  // Slides 3+: All images from Images tab, in order
+  // Slides 3+: All images from Images tab, in order, with corresponding text
   const sortedImages = [...images].sort((a, b) => a.image_order - b.image_order)
-  sortedImages.forEach((img) => {
+  sortedImages.forEach((img, idx) => {
     if (img.image_url) {
       slides.push({
         type: 'image',
         imageUrl: img.image_url,
         caption: img.caption,
+        text: bodyTextMap.get(idx + 1), // IMAGE:1 corresponds to first image in Images tab
       })
     }
   })
@@ -146,10 +191,23 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
               className="object-contain"
               priority={index < 3}
             />
+            {/* Gradient overlay for text readability */}
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+            
+            {/* Caption - title of the image */}
             {slide.caption && (
-              <p className="absolute bottom-20 left-6 right-6 text-white/80 text-lg max-w-3xl leading-relaxed">
+              <p className="absolute bottom-24 left-8 right-8 text-white text-xl md:text-2xl italic uppercase tracking-wide font-light">
                 {slide.caption}
               </p>
+            )}
+            
+            {/* Body text overlay - short excerpt */}
+            {slide.text && (
+              <div className="absolute bottom-8 left-8 right-8 max-w-2xl">
+                <p className="text-white/70 text-sm leading-relaxed" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>
+                  {slide.text}
+                </p>
+              </div>
             )}
           </div>
         )}
@@ -212,7 +270,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
                               href={`https://${org.url}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-white/50 hover:text-white"
+                              className="text-[#C93C20] hover:text-[#E04D2D]"
                             >
                               {org.url}
                             </a>
