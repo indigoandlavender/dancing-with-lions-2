@@ -45,7 +45,7 @@ export default async function EssayPage({
     textBy: essayData.textBy,
     imagesBy: essayData.imagesBy,
     year: essayData.year,
-    tags: essayData.tags,
+    tags: essayData.Tags, // Capital T in sheet
     sources: essayData.sources,
     organizations: essayData.organizations,
   }
