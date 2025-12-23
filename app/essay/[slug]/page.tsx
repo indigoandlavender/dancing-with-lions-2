@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import EssayBody from '@/components/EssayBody'
-import { getEssayBySlug, getEssays } from '@/lib/sheets'
+import { getEssayBySlug, getEssays, getEssayImages } from '@/lib/sheets'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -25,6 +25,9 @@ export default async function EssayPage({
   if (!essay) {
     notFound()
   }
+
+  // Fetch images for this essay
+  const images = await getEssayImages(params.slug)
 
   const sources = essay.sources
     ? essay.sources.split(';;').filter(Boolean)
@@ -75,7 +78,7 @@ export default async function EssayPage({
 
         <hr className="border-t-2 border-black mb-12" />
 
-        <EssayBody content={essay.body} />
+        <EssayBody content={essay.body} images={images} />
 
         {sources.length > 0 && (
           <>

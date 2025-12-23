@@ -2,8 +2,17 @@
 
 import Image from 'next/image'
 
+export interface EssayImage {
+  essay_slug: string;
+  image_order: number;
+  image_url: string;
+  caption: string;
+  type: 'contained' | 'full-bleed';
+}
+
 interface EssayBodyProps {
   content: string
+  images?: EssayImage[]
 }
 
 interface Segment {
@@ -13,7 +22,7 @@ interface Segment {
   caption?: string
 }
 
-function parseContent(content: string): Segment[] {
+function parseContent(content: string, images: EssayImage[] = []): Segment[] {
   const lines = content.split('\n')
   const segments: Segment[] = []
   let currentParagraph = ''
@@ -54,6 +63,23 @@ function parseContent(content: string): Segment[] {
       continue
     }
 
+    // Handle [IMAGE:n] placeholders
+    const imagePlaceholderMatch = trimmedLine.match(/^\[IMAGE:(\d+)\]$/)
+    if (imagePlaceholderMatch) {
+      flushParagraph()
+      const imageOrder = parseInt(imagePlaceholderMatch[1])
+      const image = images.find((img) => img.image_order === imageOrder)
+      if (image && image.image_url) {
+        segments.push({
+          type: image.type === 'full-bleed' ? 'full-bleed-image' : 'contained-image',
+          src: image.image_url,
+          caption: image.caption,
+        })
+      }
+      continue
+    }
+
+    // Handle full-bleed image markdown (!!![caption](url))
     const fullBleedMatch = trimmedLine.match(/^!!!\[([^\]]*)\]\(([^)]+)\)$/)
     if (fullBleedMatch) {
       flushParagraph()
@@ -65,6 +91,7 @@ function parseContent(content: string): Segment[] {
       continue
     }
 
+    // Handle contained image markdown (![caption](url))
     const containedMatch = trimmedLine.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)
     if (containedMatch) {
       flushParagraph()
@@ -83,8 +110,8 @@ function parseContent(content: string): Segment[] {
   return segments
 }
 
-export default function EssayBody({ content }: EssayBodyProps) {
-  const segments = parseContent(content)
+export default function EssayBody({ content, images = [] }: EssayBodyProps) {
+  const segments = parseContent(content, images)
 
   return (
     <div className="essay-content">

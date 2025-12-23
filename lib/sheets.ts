@@ -26,6 +26,46 @@ async function getAuthClient() {
   return auth;
 }
 
+export interface EssayImage {
+  essay_slug: string;
+  image_order: number;
+  image_url: string;
+  caption: string;
+  type: 'contained' | 'full-bleed';
+}
+
+export async function getEssayImages(slug: string): Promise<EssayImage[]> {
+  try {
+    const auth = await getAuthClient();
+    const sheets = google.sheets({ version: 'v4', auth });
+    
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: 'Images!A:E',
+    });
+
+    const rows = response.data.values;
+    if (!rows || rows.length < 2) return [];
+
+    const headers = rows[0];
+    const images = rows.slice(1)
+      .map((row) => ({
+        essay_slug: row[0] || '',
+        image_order: parseInt(row[1]) || 0,
+        image_url: row[2] || '',
+        caption: row[3] || '',
+        type: (row[4] || 'contained') as 'contained' | 'full-bleed',
+      }))
+      .filter((img) => img.essay_slug === slug && img.image_url)
+      .sort((a, b) => a.image_order - b.image_order);
+
+    return images;
+  } catch (error) {
+    console.error('Error fetching essay images:', error);
+    return [];
+  }
+}
+
 export async function getEssays() {
   try {
     const auth = await getAuthClient();
