@@ -27,13 +27,28 @@ export default async function EssayPage({
 }: { 
   params: { slug: string } 
 }) {
-  const essay = await getEssayBySlug(params.slug)
+  const essayData = await getEssayBySlug(params.slug)
   
-  if (!essay) {
+  if (!essayData) {
     notFound()
   }
 
   const images = await getEssayImages(params.slug)
+
+  // Map to expected shape
+  const essay = {
+    title: essayData.title || '',
+    subtitle: essayData.subtitle,
+    heroImage: essayData.heroImage,
+    heroCaption: essayData.heroCaption,
+    body: essayData.body || '',
+    textBy: essayData.textBy,
+    imagesBy: essayData.imagesBy,
+    year: essayData.year,
+    tags: essayData.tags,
+    sources: essayData.sources,
+    organizations: essayData.organizations,
+  }
 
   return <EssaySlideshow essay={essay} images={images} />
 }
