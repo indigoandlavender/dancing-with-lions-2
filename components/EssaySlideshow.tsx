@@ -41,6 +41,7 @@ interface EssaySlideshowProps {
 
 export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set())
 
   // Clean text - strip br tags, truncate
   const cleanText = (text: string, maxLength: number = 200): string => {
@@ -55,6 +56,11 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
     const truncated = cleaned.substring(0, maxLength)
     const lastSpace = truncated.lastIndexOf(' ')
     return truncated.substring(0, lastSpace) + '...'
+  }
+
+  // Handle image error
+  const handleImageError = (index: number) => {
+    setImageErrors(prev => new Set(prev).add(index))
   }
 
   // Build slides array
@@ -155,19 +161,27 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
       >
         {slide.type === 'image' && slide.imageUrl && (
           <div className="relative w-full h-full bg-[#0a0a0a]">
-            <Image
-              src={slide.imageUrl}
-              alt=""
-              fill
-              className="object-contain"
-              priority={index < 3}
-            />
+            {!imageErrors.has(index) ? (
+              <Image
+                src={slide.imageUrl}
+                alt=""
+                fill
+                className="object-contain"
+                priority={index < 3}
+                onError={() => handleImageError(index)}
+                unoptimized
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <p className="text-white/30 text-sm">Image unavailable</p>
+              </div>
+            )}
             {/* Gradient overlay for text readability */}
             <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
             
             {/* Story text overlay */}
             {slide.text && (
-              <div className="absolute bottom-12 left-16 right-16 max-w-3xl">
+              <div className="absolute bottom-12 left-20 right-16 max-w-3xl">
                 <p className="text-white/80 text-sm md:text-base leading-relaxed" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>
                   {cleanText(slide.text, 220)}
                 </p>
