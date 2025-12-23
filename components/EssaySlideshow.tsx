@@ -167,7 +167,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
             
             {/* Story text overlay */}
             {slide.text && (
-              <div className="absolute bottom-12 left-12 right-12 max-w-3xl">
+              <div className="absolute bottom-12 left-16 right-16 max-w-3xl">
                 <p className="text-white/80 text-sm md:text-base leading-relaxed" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>
                   {cleanText(slide.text, 220)}
                 </p>
