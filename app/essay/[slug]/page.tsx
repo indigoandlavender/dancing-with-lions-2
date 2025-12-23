@@ -42,7 +42,7 @@ export default async function EssayPage({
 
   return (
     <main className="min-h-screen bg-white">
-      <Header />
+      <Header transparent />
       
       <div className="w-full h-screen relative">
         {essay.heroImage ? (
