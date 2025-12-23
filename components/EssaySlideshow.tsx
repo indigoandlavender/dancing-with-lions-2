@@ -42,7 +42,6 @@ interface EssaySlideshowProps {
 
 export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
 
   // Build slides array
   const slides: Slide[] = []
@@ -134,11 +133,8 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
   const totalSlides = slides.length
 
   const goToSlide = useCallback((index: number) => {
-    if (isTransitioning) return
-    setIsTransitioning(true)
     setCurrentSlide(index)
-    setTimeout(() => setIsTransitioning(false), 500)
-  }, [isTransitioning])
+  }, [])
 
   const nextSlide = useCallback(() => {
     if (currentSlide < totalSlides - 1) {
@@ -161,8 +157,6 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
       } else if (e.key === 'ArrowLeft') {
         e.preventDefault()
         prevSlide()
-      } else if (e.key === 'Escape') {
-        // Could add exit functionality here
       }
     }
 
@@ -170,71 +164,20 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [nextSlide, prevSlide])
 
-  const slide = slides[currentSlide]
-
-  return (
-    <div className="fixed inset-0 bg-black">
-      {/* Navigation arrows */}
-      {currentSlide > 0 && (
-        <button
-          onClick={prevSlide}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center text-white/60 hover:text-white transition-colors"
-          aria-label="Previous slide"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
-      )}
-      
-      {currentSlide < totalSlides - 1 && (
-        <button
-          onClick={nextSlide}
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center text-white/60 hover:text-white transition-colors"
-          aria-label="Next slide"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </button>
-      )}
-
-      {/* Page indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 text-white/60 text-sm tracking-widest">
-        <span className="font-bold text-white">{currentSlide + 1}</span>
-        <span className="mx-2">of</span>
-        <span>{totalSlides}</span>
-      </div>
-
-      {/* Close/Exit button */}
-      <Link
-        href="/essays"
-        className="absolute top-6 right-6 z-50 text-white/60 hover:text-white transition-colors text-sm uppercase tracking-widest"
-      >
-        Close
-      </Link>
-
-      {/* Logo */}
-      <Link
-        href="/"
-        className="absolute top-6 left-6 z-50 text-white/80 hover:text-white transition-colors font-black text-xl tracking-tight"
-        style={{ fontFamily: 'Inter, sans-serif' }}
-      >
-        Dancing with Lions
-      </Link>
-
-      {/* Slide content */}
+  const renderSlide = (slide: Slide, index: number) => {
+    return (
       <div 
-        className={`w-full h-full transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+        key={index}
+        className="w-full h-full flex-shrink-0"
       >
         {slide.type === 'image' && slide.imageUrl && (
-          <div className="relative w-full h-full">
+          <div className="relative w-full h-full bg-black">
             <Image
               src={slide.imageUrl}
               alt={slide.caption || ''}
               fill
               className="object-cover"
-              priority
+              priority={index < 3}
             />
             {slide.caption && (
               <p className="absolute bottom-20 left-6 right-6 text-white/70 text-sm max-w-2xl">
@@ -336,14 +279,78 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
           </div>
         )}
       </div>
+    )
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black overflow-hidden">
+      {/* Navigation arrows */}
+      {currentSlide > 0 && (
+        <button
+          onClick={prevSlide}
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+          aria-label="Previous slide"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+      )}
+      
+      {currentSlide < totalSlides - 1 && (
+        <button
+          onClick={nextSlide}
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+          aria-label="Next slide"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+      )}
+
+      {/* Page indicator */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 text-white/60 text-sm tracking-widest">
+        <span className="font-bold text-white">{currentSlide + 1}</span>
+        <span className="mx-2">of</span>
+        <span>{totalSlides}</span>
+      </div>
+
+      {/* Close/Exit button */}
+      <Link
+        href="/essays"
+        className="absolute top-6 right-6 z-50 text-white/60 hover:text-white transition-colors text-sm uppercase tracking-widest"
+      >
+        Close
+      </Link>
+
+      {/* Logo */}
+      <Link
+        href="/"
+        className="absolute top-6 left-6 z-50 text-white/80 hover:text-white transition-colors font-black text-xl tracking-tight"
+        style={{ fontFamily: 'Inter, sans-serif' }}
+      >
+        Dancing with Lions
+      </Link>
+
+      {/* Slides container - horizontal scroll */}
+      <div 
+        className="flex h-full transition-transform duration-700 ease-out"
+        style={{ 
+          width: `${totalSlides * 100}%`,
+          transform: `translateX(-${currentSlide * (100 / totalSlides)}%)`
+        }}
+      >
+        {slides.map((slide, index) => renderSlide(slide, index))}
+      </div>
 
       {/* Click areas for navigation */}
       <div 
-        className="absolute inset-y-0 left-0 w-1/3 cursor-pointer z-40"
+        className="absolute inset-y-0 left-0 w-1/4 cursor-pointer z-40"
         onClick={prevSlide}
       />
       <div 
-        className="absolute inset-y-0 right-0 w-1/3 cursor-pointer z-40"
+        className="absolute inset-y-0 right-0 w-1/4 cursor-pointer z-40"
         onClick={nextSlide}
       />
     </div>
