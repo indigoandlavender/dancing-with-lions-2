@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { getFooterConfig } from '@/lib/nexus'
 
-export default async function Footer() {
-  const footerConfig = await getFooterConfig()
+// Hardcoded fallback - Nexus integration can be added later
+export default function Footer() {
+  const currentYear = new Date().getFullYear()
 
   return (
     <footer className="bg-white border-t-2 border-black">
@@ -57,17 +57,14 @@ export default async function Footer() {
 
       <div className="border-t border-gray-200">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-          <p>{footerConfig.copyrightText}</p>
+          <p>© {currentYear} Dancing with Lions</p>
           <div className="flex gap-6">
-            {footerConfig.footerLinks.map((link) => (
-              <Link 
-                key={link.url} 
-                href={link.url} 
-                className="hover:text-black transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+            <Link href="/privacy" className="hover:text-black transition-colors">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-black transition-colors">
+              Terms
+            </Link>
           </div>
         </div>
       </div>
