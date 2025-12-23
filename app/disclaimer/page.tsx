@@ -7,12 +7,12 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export const metadata = {
-  title: 'Terms of Service — Dancing with Lions',
+  title: 'Disclaimer — Dancing with Lions',
 }
 
-export default async function TermsPage() {
-  const page = await getLegalPage('terms')
-
+export default async function DisclaimerPage() {
+  const page = await getLegalPage('disclaimer')
+  
   if (!page) {
     notFound()
   }

@@ -70,12 +70,12 @@ export default async function EssayPage({
       </div>
 
       <article className="max-w-content mx-auto px-6 py-16">
-        <h1 className="font-display text-[clamp(2.5rem,8vw,5rem)] font-bold leading-[0.95] mb-4">
+        <h1 className="text-[clamp(3rem,10vw,6rem)] font-black leading-[0.9] tracking-tight mb-6">
           {essay.title}
         </h1>
 
         {essay.subtitle && (
-          <p className="font-display text-[clamp(1.25rem,3vw,1.75rem)] italic text-gray-600 mb-12">
+          <p className="text-xl text-gray-500 mb-12">
             {essay.subtitle}
           </p>
         )}

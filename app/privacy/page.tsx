@@ -1,39 +1,38 @@
+import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getLegalPageBySlug } from '@/lib/nexus'
+import { getLegalPage } from '@/lib/nexus'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
+export const metadata = {
+  title: 'Privacy Policy — Dancing with Lions',
+}
+
 export default async function PrivacyPage() {
-  const page = await getLegalPageBySlug('privacy')
+  const page = await getLegalPage('privacy')
+
+  if (!page) {
+    notFound()
+  }
 
   return (
     <main className="min-h-screen bg-white">
       <Header />
       
-      <section className="border-b border-gray-200">
-        <div className="max-w-[1400px] mx-auto px-6 py-12">
-          <h1 className="font-display text-3xl font-bold">
-            {page?.title || 'Privacy Policy'}
-          </h1>
+      <article className="max-w-content mx-auto px-6 py-24">
+        <h1 className="text-4xl font-black tracking-tight mb-8">{page.title}</h1>
+        
+        <div className="prose prose-lg max-w-none space-y-8 text-gray-700">
+          {page.sections.map((section, index) => (
+            <section key={index}>
+              <h2 className="text-xl font-bold text-black mt-8 mb-4">{section.title}</h2>
+              <p>{section.content}</p>
+            </section>
+          ))}
         </div>
-      </section>
-
-      <section className="max-w-content mx-auto px-6 py-12">
-        <div className="prose prose-gray max-w-none">
-          {page?.content ? (
-            <div 
-              className="text-gray-600 leading-relaxed whitespace-pre-line"
-              dangerouslySetInnerHTML={{ __html: page.content }}
-            />
-          ) : (
-            <p className="text-gray-600">
-              Privacy policy content will be loaded from Nexus.
-            </p>
-          )}
-        </div>
-      </section>
+      </article>
 
       <Footer />
     </main>

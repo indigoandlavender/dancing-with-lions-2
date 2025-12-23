@@ -35,7 +35,7 @@ export default function Header({ transparent = false }: HeaderProps) {
       <div className="max-w-[1400px] mx-auto px-6 py-5 flex items-center justify-between">
         <Link 
           href="/" 
-          className={`text-3xl font-bold tracking-tight transition-colors duration-300 ${
+          className={`text-4xl font-black tracking-tight transition-colors duration-300 ${
             isTransparent ? 'text-white' : 'text-black'
           }`}
           style={{ fontFamily: 'Inter, sans-serif' }}
