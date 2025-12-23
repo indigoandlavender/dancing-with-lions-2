@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="md:col-span-2">
             <Link 
               href="/" 
-              className="font-black text-3xl tracking-tight mb-4 block"
+              className="font-black text-4xl tracking-tight mb-4 block"
               style={{ fontFamily: 'Inter, sans-serif' }}
             >
               Dancing with Lions
