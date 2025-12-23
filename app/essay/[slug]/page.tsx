@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import EssayBody from '@/components/EssayBody'
@@ -40,6 +41,11 @@ export default async function EssayPage({
       })
     : []
 
+  // Parse tags (comma-separated)
+  const tags = essay.tags
+    ? essay.tags.split(',').map((tag: string) => tag.trim()).filter(Boolean)
+    : []
+
   return (
     <main className="min-h-screen bg-white">
       <Header transparent />
@@ -64,17 +70,15 @@ export default async function EssayPage({
       </div>
 
       <article className="max-w-content mx-auto px-6 py-16">
-        <div className="flex items-center gap-4 text-meta uppercase tracking-[0.15em] text-gray-500 mb-6">
-          <span>{essay.readTime}</span>
-        </div>
-
         <h1 className="font-display text-[clamp(2.5rem,8vw,5rem)] font-bold leading-[0.95] mb-4">
           {essay.title}
         </h1>
 
-        <p className="font-display text-[clamp(1.25rem,3vw,1.75rem)] italic text-gray-600 mb-12">
-          {essay.subtitle}
-        </p>
+        {essay.subtitle && (
+          <p className="font-display text-[clamp(1.25rem,3vw,1.75rem)] italic text-gray-600 mb-12">
+            {essay.subtitle}
+          </p>
+        )}
 
         <hr className="border-t-2 border-black mb-12" />
 
@@ -121,6 +125,25 @@ export default async function EssayPage({
                       </a>
                     )}
                   </div>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+
+        {tags.length > 0 && (
+          <>
+            <hr className="border-t border-gray-200 my-12" />
+            <section>
+              <div className="flex flex-wrap gap-3">
+                {tags.map((tag: string, index: number) => (
+                  <Link
+                    key={index}
+                    href={`/essays?tag=${encodeURIComponent(tag)}`}
+                    className="text-xs uppercase tracking-[0.15em] text-gray-500 hover:text-black transition-colors"
+                  >
+                    {tag}
+                  </Link>
                 ))}
               </div>
             </section>
