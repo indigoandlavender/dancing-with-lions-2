@@ -134,7 +134,8 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
     return (
       <div 
         key={index}
-        className="w-full h-full flex-shrink-0"
+        className="h-full flex-shrink-0"
+        style={{ width: '100vw' }}
       >
         {slide.type === 'image' && slide.imageUrl && (
           <div className="relative w-full h-full bg-black">
@@ -142,7 +143,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
               src={slide.imageUrl}
               alt={slide.caption || ''}
               fill
-              className="object-cover"
+              className="object-contain"
               priority={index < 3}
             />
             {slide.caption && (
@@ -293,8 +294,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
       <div 
         className="flex h-full transition-transform duration-700 ease-out"
         style={{ 
-          width: `${totalSlides * 100}%`,
-          transform: `translateX(-${currentSlide * (100 / totalSlides)}%)`
+          transform: `translateX(-${currentSlide * 100}vw)`
         }}
       >
         {slides.map((slide, index) => renderSlide(slide, index))}
