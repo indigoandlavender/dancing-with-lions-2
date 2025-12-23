@@ -35,10 +35,10 @@ export default function Header({ transparent = false }: HeaderProps) {
       <div className="max-w-[1400px] mx-auto px-6 py-5 flex items-center justify-between">
         <Link 
           href="/" 
-          className={`font-display text-3xl font-bold tracking-wide transition-colors duration-300 ${
+          className={`text-2xl font-bold tracking-normal transition-colors duration-300 ${
             isTransparent ? 'text-white' : 'text-black'
           }`}
-          style={{ letterSpacing: '0.04em' }}
+          style={{ fontFamily: 'Fraunces, serif', fontWeight: 700 }}
         >
           Dancing with Lions
         </Link>
