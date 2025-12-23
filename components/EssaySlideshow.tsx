@@ -7,7 +7,6 @@ import Link from 'next/link'
 interface Slide {
   type: 'image' | 'title' | 'credits'
   imageUrl?: string
-  caption?: string
   text?: string
   title?: string
   subtitle?: string
@@ -43,58 +42,30 @@ interface EssaySlideshowProps {
 export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
 
-  // Parse body text by [IMAGE:X] markers
-  const parseBodyText = (body: string): Map<number, string> => {
-    const textMap = new Map<number, string>()
-    
-    // Replace <br> tags with spaces, clean up
-    const cleanBody = body
+  // Clean text - strip br tags, truncate
+  const cleanText = (text: string, maxLength: number = 200): string => {
+    if (!text) return ''
+    const cleaned = text
       .replace(/<br><br>/g, ' ')
       .replace(/<br>/g, ' ')
       .replace(/\s+/g, ' ')
       .trim()
     
-    // Split by [IMAGE:X] pattern
-    const parts = cleanBody.split(/\[IMAGE:\d+\]/)
-    const markers = cleanBody.match(/\[IMAGE:(\d+)\]/g) || []
-    
-    // Text before first marker goes to hero (index 0)
-    if (parts[0]?.trim()) {
-      textMap.set(0, truncateText(parts[0].trim(), 180))
-    }
-    
-    // Map remaining text to their image indices
-    markers.forEach((marker, idx) => {
-      const imageNum = parseInt(marker.match(/\d+/)?.[0] || '0')
-      const textContent = parts[idx + 1]?.trim()
-      if (textContent) {
-        textMap.set(imageNum, truncateText(textContent, 180))
-      }
-    })
-    
-    return textMap
-  }
-
-  // Truncate text to character limit, ending at word boundary
-  const truncateText = (text: string, maxLength: number): string => {
-    if (text.length <= maxLength) return text
-    const truncated = text.substring(0, maxLength)
+    if (cleaned.length <= maxLength) return cleaned
+    const truncated = cleaned.substring(0, maxLength)
     const lastSpace = truncated.lastIndexOf(' ')
     return truncated.substring(0, lastSpace) + '...'
   }
 
-  const bodyTextMap = parseBodyText(essay.body)
-
   // Build slides array
   const slides: Slide[] = []
 
-  // Slide 1: Hero image with intro text
+  // Slide 1: Hero image
   if (essay.heroImage) {
     slides.push({
       type: 'image',
       imageUrl: essay.heroImage,
-      caption: essay.heroCaption,
-      text: bodyTextMap.get(0),
+      text: essay.heroCaption,
     })
   }
 
@@ -105,15 +76,15 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
     subtitle: essay.subtitle,
   })
 
-  // Slides 3+: All images from Images tab, in order, with corresponding text
+  // Slides 3+: All images from Images tab, in order
+  // Caption column contains the story text for each image
   const sortedImages = [...images].sort((a, b) => a.image_order - b.image_order)
-  sortedImages.forEach((img, idx) => {
+  sortedImages.forEach((img) => {
     if (img.image_url) {
       slides.push({
         type: 'image',
         imageUrl: img.image_url,
-        caption: img.caption,
-        text: bodyTextMap.get(idx + 1), // IMAGE:1 corresponds to first image in Images tab
+        text: img.caption, // Caption IS the story text
       })
     }
   })
@@ -183,29 +154,22 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
         style={{ width: '100vw' }}
       >
         {slide.type === 'image' && slide.imageUrl && (
-          <div className="relative w-full h-full bg-black">
+          <div className="relative w-full h-full bg-[#0a0a0a]">
             <Image
               src={slide.imageUrl}
-              alt={slide.caption || ''}
+              alt=""
               fill
               className="object-contain"
               priority={index < 3}
             />
             {/* Gradient overlay for text readability */}
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent" />
             
-            {/* Caption - title of the image */}
-            {slide.caption && (
-              <p className="absolute bottom-24 left-8 right-8 text-white text-xl md:text-2xl italic uppercase tracking-wide font-light">
-                {slide.caption}
-              </p>
-            )}
-            
-            {/* Body text overlay - short excerpt */}
+            {/* Story text overlay */}
             {slide.text && (
-              <div className="absolute bottom-8 left-8 right-8 max-w-2xl">
-                <p className="text-white/70 text-sm leading-relaxed" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>
-                  {slide.text}
+              <div className="absolute bottom-12 left-12 right-12 max-w-3xl">
+                <p className="text-white/80 text-sm md:text-base leading-relaxed" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>
+                  {cleanText(slide.text, 220)}
                 </p>
               </div>
             )}
@@ -213,13 +177,13 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
         )}
 
         {slide.type === 'title' && (
-          <div className="w-full h-full flex items-center justify-center bg-black">
+          <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
             <div className="max-w-5xl px-8 text-center">
               <h1 className="text-[clamp(3rem,12vw,9rem)] font-black leading-[0.85] tracking-tight uppercase text-white">
                 {slide.title}
               </h1>
               {slide.subtitle && (
-                <p className="mt-8 text-xl text-white/60 tracking-wide uppercase">
+                <p className="mt-8 text-xl text-white/50 tracking-wide uppercase">
                   {slide.subtitle}
                 </p>
               )}
@@ -228,10 +192,10 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
         )}
 
         {slide.type === 'credits' && (
-          <div className="w-full h-full flex items-center justify-center bg-black">
+          <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a]">
             <div className="max-w-2xl px-8 text-center">
               <div className="space-y-8">
-                <div className="flex justify-center gap-12 text-sm text-white/60">
+                <div className="flex justify-center gap-12 text-sm text-white/50">
                   {slide.textBy && <span>Text — {slide.textBy}</span>}
                   {slide.imagesBy && <span>Images — {slide.imagesBy}</span>}
                   {slide.year && <span>{slide.year}</span>}
@@ -240,7 +204,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
                 {slide.tags && slide.tags.length > 0 && (
                   <div className="flex flex-wrap justify-center gap-3">
                     {slide.tags.map((tag, i) => (
-                      <span key={i} className="text-xs uppercase tracking-[0.15em] text-white/40">
+                      <span key={i} className="text-xs uppercase tracking-[0.15em] text-white/30">
                         {tag}
                       </span>
                     ))}
@@ -248,9 +212,9 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
                 )}
 
                 {slide.sources && slide.sources.length > 0 && (
-                  <div className="pt-8 border-t border-white/20">
-                    <h3 className="text-xs uppercase tracking-widest text-white/40 mb-4">Sources</h3>
-                    <div className="text-xs text-white/50 space-y-1">
+                  <div className="pt-8 border-t border-white/10">
+                    <h3 className="text-xs uppercase tracking-widest text-white/30 mb-4">Sources</h3>
+                    <div className="text-xs text-white/40 space-y-1">
                       {slide.sources.map((source, i) => (
                         <p key={i}>{source}</p>
                       ))}
@@ -259,18 +223,18 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
                 )}
 
                 {slide.organizations && slide.organizations.length > 0 && (
-                  <div className="pt-8 border-t border-white/20">
-                    <h3 className="text-xs uppercase tracking-widest text-white/40 mb-4">The Work Continues</h3>
+                  <div className="pt-8 border-t border-white/10">
+                    <h3 className="text-xs uppercase tracking-widest text-white/30 mb-4">The Work Continues</h3>
                     <div className="space-y-4">
                       {slide.organizations.map((org, i) => (
                         <div key={i} className="text-sm">
-                          <p className="font-semibold text-white">{org.name}</p>
+                          <p className="font-medium text-white/80">{org.name}</p>
                           {org.url && (
                             <a 
                               href={`https://${org.url}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#C93C20] hover:text-[#E04D2D]"
+                              className="text-[#C93C20] hover:text-[#E04D2D] transition-colors"
                             >
                               {org.url}
                             </a>
@@ -284,7 +248,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
                 <div className="pt-12">
                   <Link
                     href="/essays"
-                    className="inline-block px-8 py-3 bg-white text-black text-sm uppercase tracking-widest hover:bg-white/90 transition-colors"
+                    className="inline-block px-8 py-3 bg-white text-[#0a0a0a] text-sm uppercase tracking-widest hover:bg-white/90 transition-colors"
                   >
                     All Essays
                   </Link>
@@ -298,12 +262,12 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black overflow-hidden">
+    <div className="fixed inset-0 bg-[#0a0a0a] overflow-hidden">
       {/* Navigation arrows */}
       {currentSlide > 0 && (
         <button
           onClick={prevSlide}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center text-white/50 hover:text-white transition-colors"
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center text-white/40 hover:text-white transition-colors"
           aria-label="Previous slide"
         >
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -315,7 +279,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
       {currentSlide < totalSlides - 1 && (
         <button
           onClick={nextSlide}
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center text-white/50 hover:text-white transition-colors"
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 flex items-center justify-center text-white/40 hover:text-white transition-colors"
           aria-label="Next slide"
         >
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -325,7 +289,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
       )}
 
       {/* Page indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 text-white/50 text-sm tracking-widest">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 text-white/40 text-sm tracking-widest">
         <span className="font-bold text-white">{currentSlide + 1}</span>
         <span className="mx-2">of</span>
         <span>{totalSlides}</span>
@@ -334,7 +298,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
       {/* Close/Exit button */}
       <Link
         href="/essays"
-        className="absolute top-6 right-6 z-50 text-white/50 hover:text-white transition-colors text-sm uppercase tracking-widest"
+        className="absolute top-6 right-6 z-50 text-white/40 hover:text-white transition-colors text-sm uppercase tracking-widest"
       >
         Close
       </Link>
@@ -342,7 +306,7 @@ export default function EssaySlideshow({ essay, images }: EssaySlideshowProps) {
       {/* Logo */}
       <Link
         href="/"
-        className="absolute top-6 left-6 z-50 text-white/70 hover:text-white transition-colors font-black text-xl tracking-tight"
+        className="absolute top-6 left-6 z-50 text-white/60 hover:text-white transition-colors font-black text-xl tracking-tight"
         style={{ fontFamily: 'Inter, sans-serif' }}
       >
         Dancing with Lions

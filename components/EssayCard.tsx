@@ -32,13 +32,18 @@ export default function EssayCard({
           )}
         </div>
         
-        <h3 className={`font-display font-bold leading-tight mt-4 mb-2 group-hover:text-accent transition-colors ${featured ? 'text-2xl' : 'text-xl'}`}>
+        <h3 
+          className={`font-black uppercase tracking-tight leading-none mt-4 mb-2 group-hover:text-[#C93C20] transition-colors ${featured ? 'text-3xl' : 'text-2xl'}`}
+          style={{ fontFamily: 'Inter, sans-serif' }}
+        >
           {title}
         </h3>
         
-        <p className="font-display text-base italic text-gray-500">
-          {subtitle}
-        </p>
+        {subtitle && (
+          <p className="text-sm text-gray-500 uppercase tracking-wide">
+            {subtitle}
+          </p>
+        )}
       </Link>
     </article>
   )
