@@ -44,7 +44,7 @@ export default async function EssayPage({
     <main className="min-h-screen bg-white">
       <Header />
       
-      <div className="w-full h-[70vh] relative">
+      <div className="w-full h-screen relative">
         {essay.heroImage ? (
           <Image
             src={essay.heroImage}
