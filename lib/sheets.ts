@@ -65,13 +65,10 @@ export async function getEssays() {
     // If no essays, return empty array
     if (essays.length === 0) return [];
     
-    // Filter for published essays - handle boolean, string, and various formats
+    // Filter for published essays - handle various formats
     return essays.filter((essay) => {
-      const pub = essay.published;
-      if (pub === true || pub === 'TRUE' || pub === 'true' || pub === 'True') return true;
-      if (pub === 'yes' || pub === 'Yes' || pub === 'YES') return true;
-      if (pub === '1' || pub === 1) return true;
-      return false;
+      const pub = String(essay.published || '').toLowerCase().trim();
+      return pub === 'true' || pub === 'yes' || pub === '1';
     });
   } catch (error) {
     console.error('Error fetching essays:', error);
