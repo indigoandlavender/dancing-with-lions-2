@@ -6,59 +6,58 @@ export default function AboutPage() {
     <main className="min-h-screen bg-white">
       <Header />
       
-      <article className="max-w-content mx-auto px-6 py-20">
-        {/* Title */}
-        <h1 className="font-display text-title font-bold leading-[0.95] mb-12">
-          About
-        </h1>
+      {/* Page Header */}
+      <section className="border-b-2 border-black">
+        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+          <h1 className="font-display text-[clamp(3rem,10vw,6rem)] font-bold leading-[0.9] tracking-[-0.03em]">
+            ABOUT
+          </h1>
+        </div>
+      </section>
 
-        <div className="essay-content">
-          <p>
-            Dancing with Lions is a publication about the stories behind places — 
-            mythology, hidden history, cultural connections. The layer underneath 
-            tourism that makes places make sense.
+      {/* Content */}
+      <section className="max-w-content mx-auto px-6 py-16">
+        <div className="prose prose-lg">
+          <p className="text-xl leading-relaxed text-gray-700 mb-8">
+            <strong className="font-display">Dancing with Lions</strong> is a publication about 
+            the stories behind places — mythology, hidden history, cultural connections. 
+            The layer underneath tourism that makes places make sense.
           </p>
-
-          <p>
-            Roman emperors shipped Barbary lions from the Atlas to die in the 
-            Colosseum. Escaped slaves climbed Le Morne because the cliffs were 
-            too sheer for the French to follow. Berber engineers carved thirty 
-            kilometers of tunnels through rock, in the dark, listening for water.
-          </p>
-
-          <p>
-            These aren't obscure facts. You can find them on Wikipedia. But the 
-            telling matters. The rhythm, the tension, the reveal — that's the craft. 
-            That's what makes someone read to the end and send the link to a friend.
-          </p>
-
-          <p>
-            We're not preservationists. We're not activists. We're not carrying 
-            anyone's burden. We're storytellers who do the digging. We go into the 
-            archives, the footnotes, the conversations, the places — and we pull 
-            out the story that makes someone say "I had no idea."
-          </p>
-
-          <p>
-            Every claim has receipts. Sources in the footer. The stories are alive, 
-            but the facts are solid.
+          
+          <p className="text-lg leading-relaxed text-gray-600 mb-8">
+            We cover everywhere the knowledge lives — from the Atlas Mountains to the Silk Road, 
+            from the Sahara to the Himalaya. Not travel tips. Not top-ten lists. Just the stories 
+            that make you understand why places haunt you after you leave.
           </p>
 
           <hr className="border-t border-gray-200 my-12" />
 
-          <h2 className="font-display text-2xl font-bold mb-6" id="contact">
-            Contact
-          </h2>
-
-          <p>
-            Editorial inquiries: <a href="mailto:editor@dancingwithlions.com" className="text-accent hover:underline">editor@dancingwithlions.com</a>
+          <h2 className="font-display text-2xl font-bold mb-6">The Name</h2>
+          
+          <p className="text-lg leading-relaxed text-gray-600 mb-8">
+            "Dancing with lions" means engaging with power and culture on its own terms. 
+            Not conquering. Not saving. Not romanticizing. Just witnessing — respecting 
+            the rhythm without imposing your own.
+          </p>
+          
+          <p className="text-lg leading-relaxed text-gray-600 mb-8">
+            The Barbary lion vanished from the Atlas Mountains in the 1960s, but forty 
+            survive in Rabat Zoo from the royal menagerie. The last visual proof of a 
+            wild Barbary lion is a 1925 aerial photograph taken by a French pilot on the 
+            Casablanca-Dakar route. He looked down, saw a lion walking through the rocks, 
+            and photographed the end of an era.
           </p>
 
-          <p className="text-gray-500 text-sm mt-8">
-            Based in Marrakech.
+          <hr className="border-t border-gray-200 my-12" />
+
+          <h2 className="font-display text-2xl font-bold mb-6" id="contact">Contact</h2>
+          
+          <p className="text-lg leading-relaxed text-gray-600">
+            Editorial — Marrakech<br />
+            Inquiries — <a href="mailto:editor@dancingwiththelions.com" className="text-accent hover:underline">editor@dancingwiththelions.com</a>
           </p>
         </div>
-      </article>
+      </section>
 
       <Footer />
     </main>

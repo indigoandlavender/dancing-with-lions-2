@@ -1,6 +1,9 @@
 import Link from 'next/link'
+import { getFooterConfig } from '@/lib/nexus'
 
-export default function Footer() {
+export default async function Footer() {
+  const footerConfig = await getFooterConfig()
+
   return (
     <footer className="bg-white border-t-2 border-black">
       {/* Main Footer */}
@@ -34,17 +37,7 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-gray-600">
               <li>
-                <Link href="/essays?category=returns" className="hover:text-accent transition-colors">
-                  Returns
-                </Link>
-              </li>
-              <li>
-                <Link href="/essays?category=systems" className="hover:text-accent transition-colors">
-                  Systems
-                </Link>
-              </li>
-              <li>
-                <Link href="/essays?category=essays" className="hover:text-accent transition-colors">
+                <Link href="/essays" className="hover:text-accent transition-colors">
                   All Essays
                 </Link>
               </li>
@@ -62,27 +55,25 @@ export default function Footer() {
                   The Publication
                 </Link>
               </li>
-              <li>
-                <Link href="/about#contact" className="hover:text-accent transition-colors">
-                  Contact
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
       </div>
 
-      {/* Legal Bar */}
+      {/* Legal Bar - Content from Nexus */}
       <div className="border-t border-gray-200">
         <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-          <p>© {new Date().getFullYear()} Dancing with Lions</p>
+          <p>{footerConfig.copyrightText}</p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-black transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-black transition-colors">
-              Terms
-            </Link>
+            {footerConfig.footerLinks.map((link) => (
+              <Link 
+                key={link.url} 
+                href={link.url} 
+                className="hover:text-black transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

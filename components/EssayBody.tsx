@@ -1,76 +1,157 @@
 'use client'
 
+import Image from 'next/image'
+
 interface EssayBodyProps {
   content: string
 }
 
 export default function EssayBody({ content }: EssayBodyProps) {
-  // Parse content into blocks
-  // !!! = full bleed image
-  // ! = contained image
-  // > = blockquote
-  // Regular text = paragraphs
-  
-  const blocks = content.split('\n\n').map((block, index) => {
-    const trimmed = block.trim()
-    
-    // Full bleed image: !!![caption](url)
-    if (trimmed.startsWith('!!!')) {
-      const match = trimmed.match(/!!!\[([^\]]*)\]\(([^)]+)\)/)
-      if (match) {
-        return (
-          <figure key={index} className="full-bleed-image">
-            <div className="w-full h-[70vh] bg-gray-200 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400" />
-            </div>
-            {match[1] && (
-              <figcaption>{match[1]}</figcaption>
-            )}
-          </figure>
-        )
-      }
-    }
-    
-    // Contained image: ![caption](url)
-    if (trimmed.startsWith('![')) {
-      const match = trimmed.match(/!\[([^\]]*)\]\(([^)]+)\)/)
-      if (match) {
-        return (
-          <figure key={index} className="contained-image">
-            <div className="w-full aspect-[4/3] bg-gray-200 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300" />
-            </div>
-            {match[1] && (
-              <figcaption>{match[1]}</figcaption>
-            )}
-          </figure>
-        )
-      }
-    }
-    
-    // Blockquote
-    if (trimmed.startsWith('>')) {
-      const quoteText = trimmed.replace(/^>\s*/, '')
-      return (
-        <blockquote key={index}>
-          {quoteText}
-        </blockquote>
-      )
-    }
-    
-    // Regular paragraph
-    if (trimmed) {
-      return (
-        <p key={index}>{trimmed}</p>
-      )
-    }
-    
-    return null
-  }).filter(Boolean)
+  // Parse the content into segments
+  const segments = parseContent(content)
 
   return (
     <div className="essay-content">
-      {blocks}
+      {segments.map((segment, index) => {
+        if (segment.type === 'paragraph') {
+          return <p key={index} dangerouslySetInnerHTML={{ __html: segment.content }} />
+        }
+        
+        if (segment.type === 'heading') {
+          return <h2 key={index}>{segment.content}</h2>
+        }
+        
+        if (segment.type === 'blockquote') {
+          return (
+            <blockquote key={index}>
+              {segment.content}
+            </blockquote>
+          )
+        }
+        
+        if (segment.type === 'full-bleed-image') {
+          return (
+            <figure key={index} className="full-bleed-image">
+              <div className="relative w-full h-[70vh]">
+                <Image
+                  src={segment.src || ''}
+                  alt={segment.caption || ''}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              {segment.caption && (
+                <figcaption>{segment.caption}</figcaption>
+              )}
+            </figure>
+          )
+        }
+        
+        if (segment.type === 'contained-image') {
+          return (
+            <figure key={index} className="contained-image">
+              <div className="relative w-full aspect-[4/3]">
+                <Image
+                  src={segment.src || ''}
+                  alt={segment.caption || ''}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              {segment.caption && (
+                <figcaption>{segment.caption}</figcaption>
+              )}
+            </figure>
+          )
+        }
+        
+        return null
+      })}
     </div>
   )
+}
+
+interface Segment {
+  type: 'paragraph' | 'heading' | 'blockquote' | 'full-bleed-image' | 'contained-image'
+  content?: string
+  src?: string
+  caption?: string
+}
+
+function parseContent(content: string): Segment[] {
+  const lines = content.split('\n')
+  const segments: Segment[] = []
+  let currentParagraph = ''
+
+  const flushParagraph = () => {
+    if (currentParagraph.trim()) {
+      segments.push({
+        type: 'paragraph',
+        content: currentParagraph.trim(),
+      })
+      currentParagraph = ''
+    }
+  }
+
+  for (const line of lines) {
+    const trimmedLine = line.trim()
+
+    // Empty line - flush paragraph
+    if (!trimmedLine) {
+      flushParagraph()
+      continue
+    }
+
+    // Heading (## )
+    if (trimmedLine.startsWith('## ')) {
+      flushParagraph()
+      segments.push({
+        type: 'heading',
+        content: trimmedLine.slice(3),
+      })
+      continue
+    }
+
+    // Blockquote (> )
+    if (trimmedLine.startsWith('> ')) {
+      flushParagraph()
+      segments.push({
+        type: 'blockquote',
+        content: trimmedLine.slice(2),
+      })
+      continue
+    }
+
+    // Full-bleed image (!!![caption](url))
+    const fullBleedMatch = trimmedLine.match(/^!!!\[([^\]]*)\]\(([^)]+)\)$/)
+    if (fullBleedMatch) {
+      flushParagraph()
+      segments.push({
+        type: 'full-bleed-image',
+        caption: fullBleedMatch[1],
+        src: fullBleedMatch[2],
+      })
+      continue
+    }
+
+    // Contained image (![caption](url))
+    const containedMatch = trimmedLine.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)
+    if (containedMatch) {
+      flushParagraph()
+      segments.push({
+        type: 'contained-image',
+        caption: containedMatch[1],
+        src: containedMatch[2],
+      })
+      continue
+    }
+
+    // Regular text - add to current paragraph
+    currentParagraph += (currentParagraph ? ' ' : '') + trimmedLine
+  }
+
+  // Flush any remaining paragraph
+  flushParagraph()
+
+  return segments
 }

@@ -1,103 +1,21 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getFeaturedEssays as getEssaysFromSheets, Essay } from '@/lib/sheets'
+import EssayCard from '@/components/EssayCard'
+import { getEssays } from '@/lib/sheets'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-// Fallback data if sheets not connected
-const fallbackEssays = [
-  {
-    slug: 'the-barbary-lion',
-    title: 'The Barbary Lion',
-    subtitle: 'Forty survived in the king\'s garden',
-    category: 'RETURNS',
-    heroImage: '',
-    heroCaption: '',
-    excerpt: 'Roman emperors shipped thousands of them from the Atlas to die in the Colosseum. The last wild one was photographed from an airplane in 1925. A pilot looked down and saw the end of an era.',
-    body: '',
-    readTime: '8 min',
-    year: '2025',
-    textBy: 'J. Laurent',
-    imagesBy: 'Midjourney',
-    sources: '',
-    organizations: '',
-    published: 'true',
-    featured: 'true',
-    order: '1',
-  },
-  {
-    slug: 'the-sahara-remembers',
-    title: 'How the Sahara Remembers',
-    subtitle: 'The navigation system that predates GPS by two thousand years',
-    category: 'SYSTEMS',
-    heroImage: '',
-    heroCaption: '',
-    excerpt: 'Satellite navigation fails in sandstorms. The stars don\'t.',
-    body: '',
-    readTime: '7 min',
-    year: '2025',
-    textBy: 'J. Laurent',
-    imagesBy: 'Midjourney',
-    sources: '',
-    organizations: '',
-    published: 'true',
-    featured: 'false',
-    order: '2',
-  },
-  {
-    slug: 'the-gnawa',
-    title: 'The Gnawa',
-    subtitle: 'The gods that crossed the ocean twice',
-    category: 'ESSAYS',
-    heroImage: '',
-    heroCaption: '',
-    excerpt: 'Enslaved West Africans kept their gods alive by hiding them inside Sufism.',
-    body: '',
-    readTime: '9 min',
-    year: '2025',
-    textBy: 'J. Laurent',
-    imagesBy: 'Midjourney',
-    sources: '',
-    organizations: '',
-    published: 'true',
-    featured: 'false',
-    order: '3',
-  },
-  {
-    slug: 'le-morne',
-    title: 'Le Morne',
-    subtitle: 'They chose the cliff over the whip',
-    category: 'ESSAYS',
-    heroImage: '',
-    heroCaption: '',
-    excerpt: 'The maroons thought the soldiers had come to capture them. They jumped.',
-    body: '',
-    readTime: '6 min',
-    year: '2025',
-    textBy: 'J. Laurent',
-    imagesBy: 'Midjourney',
-    sources: '',
-    organizations: '',
-    published: 'true',
-    featured: 'false',
-    order: '4',
-  },
-] as Essay[]
-
-async function getFeaturedEssays(): Promise<Essay[]> {
-  try {
-    const essays = await getEssaysFromSheets()
-    return essays.length > 0 ? essays : fallbackEssays
-  } catch {
-    return fallbackEssays
-  }
-}
-
 export default async function Home() {
-  const essays = await getFeaturedEssays()
-  const [featured, ...rest] = essays
+  const essays = await getEssays()
+  
+  // Sort by order field
+  const sortedEssays = essays.sort((a, b) => (Number(a.order) || 999) - (Number(b.order) || 999))
+  
+  // Get featured essay (first one) and the rest
+  const [featured, ...rest] = sortedEssays
   
   return (
     <main className="min-h-screen bg-white">
@@ -116,100 +34,70 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Main Grid - NYT Style Hierarchical */}
-      <section className="max-w-[1400px] mx-auto px-6 py-12">
-        <div className="grid grid-cols-12 gap-6 lg:gap-8">
-          
-          {/* Featured Story - Spans 8 columns on desktop */}
-          <article className="col-span-12 lg:col-span-8 border-b-2 lg:border-b-0 lg:border-r-2 border-black pb-8 lg:pb-0 lg:pr-8">
-            <Link href={`/essay/${featured.slug}`} className="group block">
-              {/* Image */}
-              <div className="aspect-[16/10] bg-gray-100 mb-6 overflow-hidden">
-                <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 group-hover:scale-105 transition-transform duration-700" />
-              </div>
-              
-              {/* Category */}
-              <span className="text-meta uppercase tracking-[0.15em] text-accent font-semibold">
-                {featured.category}
-              </span>
-              
+      {/* Featured Story */}
+      {featured && (
+        <section className="max-w-[1400px] mx-auto px-6 py-12 border-b-2 border-black">
+          <Link href={`/essay/${featured.slug}`} className="group grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Image */}
+            <div className="aspect-[4/5] relative overflow-hidden bg-gray-100">
+              {featured.heroImage ? (
+                <Image
+                  src={featured.heroImage}
+                  alt={featured.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:scale-105 transition-transform duration-700" />
+              )}
+            </div>
+            
+            {/* Content */}
+            <div className="flex flex-col justify-center">
               {/* Title */}
-              <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1] mt-3 mb-4 group-hover:text-accent transition-colors">
+              <h2 className="font-display text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[0.95] mb-4 group-hover:text-accent transition-colors">
                 {featured.title}
               </h2>
               
               {/* Subtitle */}
-              <p className="font-display text-[clamp(1.1rem,2vw,1.5rem)] italic text-gray-600 mb-4">
+              <p className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] italic text-gray-600 mb-6">
                 {featured.subtitle}
               </p>
               
               {/* Excerpt */}
-              <p className="text-body-lg text-gray-700 max-w-2xl leading-relaxed">
+              <p className="text-lg text-gray-700 leading-relaxed max-w-xl">
                 {featured.excerpt}
               </p>
-            </Link>
-          </article>
+              
+              {/* Read more */}
+              <p className="mt-8 text-sm font-medium uppercase tracking-wider text-accent">
+                Read essay →
+              </p>
+            </div>
+          </Link>
+        </section>
+      )}
 
-          {/* Secondary Stories - 4 columns, stacked */}
-          <div className="col-span-12 lg:col-span-4 space-y-8">
-            {rest.slice(0, 3).map((essay, index) => (
-              <article 
-                key={essay.slug} 
-                className={`${index < 2 ? 'border-b border-gray-200 pb-8' : ''}`}
-              >
-                <Link href={`/essay/${essay.slug}`} className="group block">
-                  {/* Category */}
-                  <span className="text-meta uppercase tracking-[0.15em] text-gray-500 font-medium">
-                    {essay.category}
-                  </span>
-                  
-                  {/* Title */}
-                  <h3 className="font-display text-[clamp(1.25rem,2.5vw,1.75rem)] font-bold leading-[1.1] mt-2 mb-2 group-hover:text-accent transition-colors">
-                    {essay.title}
-                  </h3>
-                  
-                  {/* Subtitle */}
-                  <p className="font-display text-base italic text-gray-500">
-                    {essay.subtitle}
-                  </p>
-                </Link>
-              </article>
+      {/* Essay Grid - Vertical Cards like Slow Morocco */}
+      {rest.length > 0 && (
+        <section className="max-w-[1400px] mx-auto px-6 py-16">
+          <h2 className="font-display text-2xl font-bold uppercase tracking-wider mb-12">
+            More Essays
+          </h2>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            {rest.map((essay) => (
+              <EssayCard
+                key={essay.slug}
+                slug={essay.slug}
+                title={essay.title}
+                subtitle={essay.subtitle}
+                heroImage={essay.heroImage}
+              />
             ))}
           </div>
-        </div>
-
-        {/* Divider */}
-        <div className="border-t-2 border-black my-12" />
-
-        {/* More Stories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {rest.slice(3).map((essay) => (
-            <article key={essay.slug} className="group">
-              <Link href={`/essay/${essay.slug}`} className="block">
-                {/* Image */}
-                <div className="aspect-[4/3] bg-gray-100 mb-4 overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 group-hover:scale-105 transition-transform duration-700" />
-                </div>
-                
-                {/* Category */}
-                <span className="text-meta uppercase tracking-[0.15em] text-gray-500 font-medium">
-                  {essay.category}
-                </span>
-                
-                {/* Title */}
-                <h3 className="font-display text-xl font-bold leading-tight mt-2 mb-2 group-hover:text-accent transition-colors">
-                  {essay.title}
-                </h3>
-                
-                {/* Subtitle */}
-                <p className="font-display text-base italic text-gray-500">
-                  {essay.subtitle}
-                </p>
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Newsletter Section */}
       <section className="bg-black text-white py-20">
