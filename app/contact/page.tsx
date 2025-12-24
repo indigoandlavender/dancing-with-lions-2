@@ -30,93 +30,111 @@ export default function ContactPage() {
       <Header />
 
       <section className="pt-40 pb-20 md:pt-52 md:pb-28">
-        <div className="max-w-[600px] mx-auto px-6">
-          {submitted ? (
-            <div className="py-12 text-center">
-              <h3 className="text-2xl font-bold mb-4">
-                Thank you.
-              </h3>
-              <p className="text-gray-600">
-                We'll be in touch soon.
-              </p>
+        <div className="max-w-[1000px] mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+            {/* Left - Title */}
+            <div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1]">
+                SEND
+                <br />
+                US
+                <br />
+                A
+                <br />
+                NOTE.
+              </h1>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Name Row */}
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-4">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, firstName: e.target.value })
-                    }
-                    required
-                    className="w-full border-b-2 border-gray-200 bg-transparent py-3 text-lg focus:outline-none focus:border-black transition-colors"
-                  />
+
+            {/* Right - Form */}
+            <div>
+              {submitted ? (
+                <div className="py-12">
+                  <h3 className="text-2xl font-bold mb-4">
+                    Thank you.
+                  </h3>
+                  <p className="text-gray-600">
+                    We'll be in touch soon.
+                  </p>
                 </div>
-                <div>
-                  <label className="block text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-4">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, lastName: e.target.value })
-                    }
-                    className="w-full border-b-2 border-gray-200 bg-transparent py-3 text-lg focus:outline-none focus:border-black transition-colors"
-                  />
-                </div>
-              </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  {/* Name Row */}
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-4">
+                        First Name
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.firstName}
+                        onChange={(e) =>
+                          setFormData({ ...formData, firstName: e.target.value })
+                        }
+                        required
+                        className="w-full border-b-2 border-gray-200 bg-transparent py-3 text-lg focus:outline-none focus:border-black transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-4">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.lastName}
+                        onChange={(e) =>
+                          setFormData({ ...formData, lastName: e.target.value })
+                        }
+                        className="w-full border-b-2 border-gray-200 bg-transparent py-3 text-lg focus:outline-none focus:border-black transition-colors"
+                      />
+                    </div>
+                  </div>
 
-              {/* Email */}
-              <div>
-                <label className="block text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-4">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                  required
-                  className="w-full border-b-2 border-gray-200 bg-transparent py-3 text-lg focus:outline-none focus:border-black transition-colors"
-                />
-              </div>
+                  {/* Email */}
+                  <div>
+                    <label className="block text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-4">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      required
+                      className="w-full border-b-2 border-gray-200 bg-transparent py-3 text-lg focus:outline-none focus:border-black transition-colors"
+                    />
+                  </div>
 
-              {/* Message */}
-              <div>
-                <label className="block text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-4">
-                  Message
-                </label>
-                <textarea
-                  value={formData.message}
-                  onChange={(e) =>
-                    setFormData({ ...formData, message: e.target.value })
-                  }
-                  rows={4}
-                  required
-                  className="w-full border-b-2 border-gray-200 bg-transparent py-3 text-lg focus:outline-none focus:border-black transition-colors resize-none"
-                />
-              </div>
+                  {/* Message */}
+                  <div>
+                    <label className="block text-[11px] font-bold tracking-[0.15em] uppercase text-gray-500 mb-4">
+                      Message
+                    </label>
+                    <textarea
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      rows={4}
+                      required
+                      className="w-full border-b-2 border-gray-200 bg-transparent py-3 text-lg focus:outline-none focus:border-black transition-colors resize-none"
+                    />
+                  </div>
 
-              {/* Submit Button */}
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="inline-block border-2 border-black px-10 py-4 text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-black hover:text-white transition-colors disabled:opacity-50"
-                >
-                  {submitting ? "Sending..." : "Submit"}
-                </button>
-              </div>
-            </form>
-          )}
+                  {/* Submit Button */}
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="inline-block border-2 border-black px-10 py-4 text-[11px] font-bold tracking-[0.15em] uppercase hover:bg-black hover:text-white transition-colors disabled:opacity-50"
+                    >
+                      {submitting ? "Sending..." : "Submit"}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
