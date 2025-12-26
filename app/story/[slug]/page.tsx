@@ -5,6 +5,8 @@ import { Metadata } from 'next';
 import { getStories, getStoryBySlug, getStoryImages } from '@/lib/sheets';
 import StoryBody from '@/components/StoryBody';
 import Gallery from '@/components/Gallery';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -141,7 +143,9 @@ export default async function StoryPage({ params }: PageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-white">
+      <Header transparent={!!story.heroImage} />
+      
       {/* Schema Markup */}
       <script
         type="application/ld+json"
@@ -154,7 +158,7 @@ export default async function StoryPage({ params }: PageProps) {
 
       {/* Hero Image */}
       {story.heroImage && (
-        <section className="relative w-full h-[60vh] md:h-[70vh]">
+        <section className="relative w-full h-[70vh] md:h-[80vh]">
           <Image
             src={story.heroImage}
             alt={story.title}
@@ -197,7 +201,7 @@ export default async function StoryPage({ params }: PageProps) {
         </div>
 
         {/* Title */}
-        <h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-foreground mb-4 leading-tight tracking-tight">
+        <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 leading-[0.95] tracking-[-0.02em] font-bold">
           {story.title}
         </h1>
 
@@ -257,6 +261,8 @@ export default async function StoryPage({ params }: PageProps) {
           </Link>
         </div>
       </article>
+      
+      <Footer />
     </main>
   );
 }
