@@ -130,3 +130,115 @@ export async function getFeaturedEssays() {
     })
     .sort((a, b) => (Number(a.order) || 999) - (Number(b.order) || 999));
 }
+
+// ==================== STORIES (Articles) ====================
+
+export interface Story {
+  slug: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  heroImage: string;
+  heroCaption: string;
+  excerpt: string;
+  body: string;
+  readTime: string;
+  year: string;
+  textBy: string;
+  imagesBy: string;
+  sources: string;
+  tags?: string;
+  published: string;
+  featured: string;
+  order: string;
+}
+
+export async function getStories(): Promise<Story[]> {
+  try {
+    const auth = await getAuthClient();
+    const sheets = google.sheets({ version: 'v4', auth });
+    
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: 'Stories!A:R',
+    });
+
+    const rows = response.data.values;
+    if (!rows || rows.length < 2) return [];
+
+    const headers = rows[0];
+    const stories = rows.slice(1).map((row) => {
+      const story: Record<string, string> = {};
+      headers.forEach((header: string, index: number) => {
+        let value = row[index] || '';
+        if (typeof value === 'string') {
+          value = value.replace(/<br>/g, '\n');
+        }
+        story[header] = value;
+      });
+      return story as unknown as Story;
+    });
+
+    return stories.filter((story) => {
+      const pub = String(story.published || '').toLowerCase().trim();
+      return pub === 'true' || pub === 'yes' || pub === '1';
+    });
+  } catch (error) {
+    console.error('Error fetching stories:', error);
+    return [];
+  }
+}
+
+export async function getStoryBySlug(slug: string): Promise<Story | null> {
+  const stories = await getStories();
+  return stories.find((story) => story.slug === slug) || null;
+}
+
+export async function getFeaturedStories(): Promise<Story[]> {
+  const stories = await getStories();
+  return stories
+    .filter((story) => {
+      const featured = String(story.featured || '').toLowerCase().trim();
+      return featured === 'true' || featured === 'yes' || featured === '1';
+    })
+    .sort((a, b) => (Number(a.order) || 999) - (Number(b.order) || 999));
+}
+
+// ==================== STORY IMAGES ====================
+
+export interface StoryImage {
+  story_slug: string;
+  image_order: number;
+  image_url: string;
+  caption: string;
+}
+
+export async function getStoryImages(slug: string): Promise<StoryImage[]> {
+  try {
+    const auth = await getAuthClient();
+    const sheets = google.sheets({ version: 'v4', auth });
+    
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: 'Story_Images!A:D',
+    });
+
+    const rows = response.data.values;
+    if (!rows || rows.length < 2) return [];
+
+    const images = rows.slice(1)
+      .map((row) => ({
+        story_slug: row[0] || '',
+        image_order: parseInt(row[1]) || 0,
+        image_url: row[2] || '',
+        caption: row[3] || '',
+      }))
+      .filter((img) => img.story_slug === slug && img.image_url)
+      .sort((a, b) => a.image_order - b.image_order);
+
+    return images;
+  } catch (error) {
+    console.error('Error fetching story images:', error);
+    return [];
+  }
+}

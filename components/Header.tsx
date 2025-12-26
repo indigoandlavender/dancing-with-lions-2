@@ -53,6 +53,14 @@ export default function Header({ transparent = false }: HeaderProps) {
             Essays
           </Link>
           <Link 
+            href="/stories" 
+            className={`text-sm transition-colors ${
+              isTransparent ? 'text-white hover:text-white/70' : 'text-gray-600 hover:text-black'
+            }`}
+          >
+            Stories
+          </Link>
+          <Link 
             href="/about" 
             className={`text-sm transition-colors ${
               isTransparent ? 'text-white hover:text-white/70' : 'text-gray-600 hover:text-black'
@@ -83,6 +91,13 @@ export default function Header({ transparent = false }: HeaderProps) {
             onClick={() => setMenuOpen(false)}
           >
             Essays
+          </Link>
+          <Link 
+            href="/stories" 
+            className="block text-lg"
+            onClick={() => setMenuOpen(false)}
+          >
+            Stories
           </Link>
           <Link 
             href="/about" 
