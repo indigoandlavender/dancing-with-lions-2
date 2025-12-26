@@ -160,13 +160,19 @@ export async function getStories(): Promise<Story[]> {
     
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: 'Stories!A:R',
+      range: 'Stories!A:Q',
     });
 
     const rows = response.data.values;
-    if (!rows || rows.length < 2) return [];
+    console.log('Stories rows found:', rows?.length || 0);
+    if (!rows || rows.length < 2) {
+      console.log('No stories data found');
+      return [];
+    }
 
     const headers = rows[0];
+    console.log('Stories headers:', headers);
+    
     const stories = rows.slice(1).map((row) => {
       const story: Record<string, string> = {};
       headers.forEach((header: string, index: number) => {
@@ -179,10 +185,16 @@ export async function getStories(): Promise<Story[]> {
       return story as unknown as Story;
     });
 
-    return stories.filter((story) => {
+    console.log('Stories before filter:', stories.length);
+    console.log('First story published value:', stories[0]?.published);
+
+    const filtered = stories.filter((story) => {
       const pub = String(story.published || '').toLowerCase().trim();
       return pub === 'true' || pub === 'yes' || pub === '1';
     });
+    
+    console.log('Stories after filter:', filtered.length);
+    return filtered;
   } catch (error) {
     console.error('Error fetching stories:', error);
     return [];
