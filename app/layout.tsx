@@ -1,24 +1,29 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import { Space_Grotesk } from 'next/font/google'
 import './globals.css'
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://dancingwithlions.com'),
   title: {
-    default: 'Dancing with Lions — Cultural Intelligence',
+    default: 'Dancing with Lions — Tourism That Doesn\'t Hurt',
     template: '%s | Dancing with Lions',
   },
-  description: 'Cultural intelligence for conservation, protection, and preservation. Documenting traditional knowledge systems across Africa, the Middle East, and Asia.',
+  description: 'Tourism that doesn\'t hurt people, animals, or culture. The successes. The threats. Without flinching.',
   keywords: [
-    'cultural intelligence',
+    'sustainable tourism',
+    'ethical travel',
+    'hospitality industry',
+    'tourism transformation',
     'conservation',
-    'traditional knowledge',
-    'cultural heritage',
-    'Africa',
-    'Middle East',
-    'Asia',
-    'ethnography',
-    'preservation',
+    'cultural tourism',
+    'responsible travel',
   ],
   authors: [{ name: 'Jacqueline Ng' }],
   creator: 'Dancing with Lions',
@@ -28,13 +33,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://dancingwithlions.com',
     siteName: 'Dancing with Lions',
-    title: 'Dancing with Lions — Cultural Intelligence',
-    description: 'Cultural intelligence for conservation, protection, and preservation. Documenting traditional knowledge systems across Africa, the Middle East, and Asia.',
+    title: 'Dancing with Lions — Tourism That Doesn\'t Hurt',
+    description: 'Tourism that doesn\'t hurt people, animals, or culture. The successes. The threats. Without flinching.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dancing with Lions — Cultural Intelligence',
-    description: 'Cultural intelligence for conservation, protection, and preservation.',
+    title: 'Dancing with Lions — Tourism That Doesn\'t Hurt',
+    description: 'The successes. The threats. Without flinching.',
   },
   robots: {
     index: true,
@@ -58,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={spaceGrotesk.variable}>
       <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-P1CGE62ZD4"
@@ -73,7 +78,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body>{children}</body>
+      <body className="font-sans">{children}</body>
     </html>
   )
 }

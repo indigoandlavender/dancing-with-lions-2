@@ -101,28 +101,20 @@ export default async function Home() {
         </section>
       )}
 
-      {/* The Three Pillars */}
-      <section className="border-b-2 border-black">
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          <div className="border-b-2 md:border-b-0 md:border-r-2 border-black p-8 md:p-12">
-            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">Conservation</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Living systems. Wildlife, ecosystems, landscapes. The ecological foundations 
-              that make human culture possible.
+      {/* The Goal */}
+      <section className="border-b-2 border-black bg-gray-100">
+        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-3xl">
+            <h2 className="font-black text-[clamp(1.75rem,4vw,3rem)] leading-[1] tracking-tight uppercase mb-8">
+              Transform the industry
+            </h2>
+            <p className="text-xl leading-relaxed text-gray-700 mb-6">
+              Initiate the reflection. Transmute into a healthier ecosystem.
             </p>
-          </div>
-          <div className="border-b-2 md:border-b-0 md:border-r-2 border-black p-8 md:p-12">
-            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">Protection</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Living cultures. Practices, knowledge, people. The transmission of expertise 
-              across generations — how things are made, how places are read.
-            </p>
-          </div>
-          <div className="p-8 md:p-12">
-            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">Preservation</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Living heritage. Buildings, sites, traditions. The physical and intangible 
-              legacy that connects past to present.
+            <p className="text-lg leading-relaxed text-gray-600">
+              Tourism that doesn't burn through workers. That doesn't displace communities. 
+              That doesn't fund extinction disguised as conservation. It exists — and the industry 
+              can learn from it, if it's willing to look.
             </p>
           </div>
         </div>

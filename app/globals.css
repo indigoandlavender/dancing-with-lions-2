@@ -2,10 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
 :root {
-  --font-display: 'Inter', sans-serif;
+  --font-display: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
   --background: #ffffff;
   --foreground: #000000;
   --accent: #C93C20;

@@ -65,28 +65,23 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* The Three Pillars */}
-      <section className="border-b-2 border-black">
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          <div className="border-b-2 md:border-b-0 md:border-r-2 border-black p-8 md:p-12">
-            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">People</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Hospitality that sustains its workers. Businesses where staff stay, grow, 
-              and aren't burned through. The ancient contract restored.
+      {/* The Goal */}
+      <section className="border-b-2 border-black bg-gray-100">
+        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
+              The Goal
             </p>
-          </div>
-          <div className="border-b-2 md:border-b-0 md:border-r-2 border-black p-8 md:p-12">
-            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">Animals</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Conservation that works. Community models, rewilding successes, wildlife 
-              returning. Tourism that funds protection, not extraction.
+            <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-8">
+              Transform the industry
+            </h2>
+            <p className="text-lg leading-relaxed text-gray-700 mb-6">
+              Initiate the reflection. Transmute into a healthier ecosystem.
             </p>
-          </div>
-          <div className="p-8 md:p-12">
-            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">Culture</h3>
-            <p className="text-gray-600 leading-relaxed">
-              Heritage that lives. Traditions practiced, not performed. Communities 
-              benefiting from their own culture, not displaced by it.
+            <p className="text-lg leading-relaxed text-gray-600">
+              The tourism industry can change. Not through regulation or shame — through 
+              example. By documenting who's doing it right, we create a mirror. By naming 
+              the threats, we make them visible. The reflection is the first step.
             </p>
           </div>
         </div>

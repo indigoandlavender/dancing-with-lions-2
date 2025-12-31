@@ -20,8 +20,8 @@ const config: Config = {
         }
       },
       fontFamily: {
-        display: ['var(--font-display)', 'serif'],
-        body: ['var(--font-body)', 'sans-serif'],
+        sans: ['var(--font-space-grotesk)', 'Space Grotesk', 'sans-serif'],
+        display: ['var(--font-space-grotesk)', 'Space Grotesk', 'sans-serif'],
       },
       fontSize: {
         'hero': ['clamp(4rem, 15vw, 12rem)', { lineHeight: '0.85', letterSpacing: '-0.04em' }],
