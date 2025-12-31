@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getEssays, getStories } from '@/lib/sheets'
+import { getEssays, getStories, getOpinions } from '@/lib/sheets'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -10,12 +10,16 @@ export const revalidate = 0
 export default async function Home() {
   const essays = await getEssays()
   const stories = await getStories()
+  const opinions = await getOpinions()
   
   const sortedEssays = essays.sort((a, b) => (Number(a.order) || 999) - (Number(b.order) || 999))
   const [featuredEssay, ...restEssays] = sortedEssays
   
   const sortedStories = stories.sort((a, b) => (Number(a.order) || 999) - (Number(b.order) || 999))
   const featuredStories = sortedStories.slice(0, 4)
+  
+  const sortedOpinions = opinions.sort((a, b) => (Number(a.order) || 999) - (Number(b.order) || 999))
+  const featuredOpinion = sortedOpinions[0]
   
   return (
     <main className="min-h-screen bg-white">
@@ -30,20 +34,20 @@ export default async function Home() {
           </h1>
           <div className="mt-12 max-w-2xl">
             <p className="text-xl md:text-2xl leading-relaxed text-gray-600">
-              Cultural intelligence for conservation, protection, and preservation.
+              Tourism that doesn't hurt people, animals, or culture.
             </p>
             <p className="mt-4 text-lg text-gray-500">
-              Documenting traditional knowledge systems across Africa, the Middle East, and Asia.
+              The successes worth replicating. The threats worth naming. Looking at what's wrong in the face, without flinching.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Mission Strip */}
+      {/* Thesis Strip */}
       <section className="bg-black text-white py-8 border-b-2 border-black">
         <div className="max-w-[1400px] mx-auto px-6">
           <p className="text-sm md:text-base uppercase tracking-[0.2em] text-center">
-            Protect the past in the present so that we have a future
+            The successes. The threats. Without flinching.
           </p>
         </div>
       </section>
@@ -63,7 +67,9 @@ export default async function Home() {
                   priority
                 />
               ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300" />
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                  <span className="text-white/20 font-black text-6xl uppercase tracking-tight">DWL</span>
+                </div>
               )}
             </div>
             
@@ -95,14 +101,68 @@ export default async function Home() {
         </section>
       )}
 
+      {/* The Three Pillars */}
+      <section className="border-b-2 border-black">
+        <div className="grid grid-cols-1 md:grid-cols-3">
+          <div className="border-b-2 md:border-b-0 md:border-r-2 border-black p-8 md:p-12">
+            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">Conservation</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Living systems. Wildlife, ecosystems, landscapes. The ecological foundations 
+              that make human culture possible.
+            </p>
+          </div>
+          <div className="border-b-2 md:border-b-0 md:border-r-2 border-black p-8 md:p-12">
+            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">Protection</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Living cultures. Practices, knowledge, people. The transmission of expertise 
+              across generations — how things are made, how places are read.
+            </p>
+          </div>
+          <div className="p-8 md:p-12">
+            <h3 className="font-black text-2xl uppercase tracking-tight mb-4">Preservation</h3>
+            <p className="text-gray-600 leading-relaxed">
+              Living heritage. Buildings, sites, traditions. The physical and intangible 
+              legacy that connects past to present.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Opinion - The Position */}
+      {featuredOpinion && (
+        <section className="border-b-2 border-black bg-gray-100">
+          <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+            <div className="max-w-3xl">
+              <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
+                Opinion
+              </p>
+              <Link href={`/opinion/${featuredOpinion.slug}`} className="group">
+                <h2 className="font-black text-[clamp(1.75rem,4vw,3rem)] leading-[0.95] tracking-tight uppercase mb-6 group-hover:text-accent transition-colors">
+                  {featuredOpinion.title}
+                </h2>
+                <p className="text-xl md:text-2xl text-gray-600 mb-6 leading-relaxed italic">
+                  "{featuredOpinion.excerpt}"
+                </p>
+                <span className="inline-block text-sm font-bold uppercase tracking-wider border-b-2 border-black pb-1 group-hover:border-accent group-hover:text-accent transition-colors">
+                  Read Position
+                </span>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Stories Grid */}
       {featuredStories.length > 0 && (
         <section className="border-b-2 border-black">
           <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
             <div className="flex justify-between items-end mb-12">
-              <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight">
-                Latest Stories
-              </h2>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Documentation</p>
+                <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight">
+                  Stories
+                </h2>
+              </div>
               <Link 
                 href="/stories" 
                 className="text-sm font-bold uppercase tracking-wider border-b-2 border-black pb-1 hover:border-accent hover:text-accent transition-colors hidden md:block"
@@ -156,9 +216,17 @@ export default async function Home() {
       {restEssays.length > 0 && (
         <section className="border-b-2 border-black">
           <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
-            <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-12">
-              Essays
-            </h2>
+            <div className="flex justify-between items-end mb-12">
+              <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight">
+                Essays
+              </h2>
+              <Link 
+                href="/essays" 
+                className="text-sm font-bold uppercase tracking-wider border-b-2 border-black pb-1 hover:border-accent hover:text-accent transition-colors hidden md:block"
+              >
+                View All
+              </Link>
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
               {restEssays.slice(0, 6).map((essay) => (
