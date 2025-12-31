@@ -254,3 +254,73 @@ export async function getStoryImages(slug: string): Promise<StoryImage[]> {
     return [];
   }
 }
+
+// ==================== OPINION ====================
+
+export interface Opinion {
+  slug: string;
+  title: string;
+  subtitle: string;
+  excerpt: string;
+  body: string;
+  readTime: string;
+  year: string;
+  textBy: string;
+  sources: string;
+  tags?: string;
+  published: string;
+  featured: string;
+  order: string;
+}
+
+export async function getOpinions(): Promise<Opinion[]> {
+  try {
+    const auth = await getAuthClient();
+    const sheets = google.sheets({ version: 'v4', auth });
+    
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: 'Opinion!A:M',
+    });
+
+    const rows = response.data.values;
+    console.log('Opinion rows found:', rows?.length || 0);
+    if (!rows || rows.length < 2) {
+      console.log('No opinion data found');
+      return [];
+    }
+
+    const headers = rows[0];
+    console.log('Opinion headers:', headers);
+    
+    const opinions = rows.slice(1).map((row) => {
+      const opinion: Record<string, string> = {};
+      headers.forEach((header: string, index: number) => {
+        let value = row[index] || '';
+        if (typeof value === 'string') {
+          value = value.replace(/<br>/g, '\n');
+        }
+        opinion[header] = value;
+      });
+      return opinion as unknown as Opinion;
+    });
+
+    console.log('Opinions before filter:', opinions.length);
+
+    const filtered = opinions.filter((opinion) => {
+      const pub = String(opinion.published || '').toLowerCase().trim();
+      return pub === 'true' || pub === 'yes' || pub === '1';
+    });
+    
+    console.log('Opinions after filter:', filtered.length);
+    return filtered;
+  } catch (error) {
+    console.error('Error fetching opinions:', error);
+    return [];
+  }
+}
+
+export async function getOpinionBySlug(slug: string): Promise<Opinion | null> {
+  const opinions = await getOpinions();
+  return opinions.find((opinion) => opinion.slug === slug) || null;
+}

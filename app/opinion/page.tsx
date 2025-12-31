@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getStories } from '@/lib/sheets'
+import { getOpinions } from '@/lib/sheets'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
@@ -13,12 +13,10 @@ export const metadata: Metadata = {
 }
 
 export default async function OpinionPage() {
-  const stories = await getStories()
+  const opinions = await getOpinions()
   
-  // Filter for Opinion category only
-  const opinions = stories
-    .filter(s => s.category === 'Opinion')
-    .sort((a, b) => (parseInt(a.order) || 999) - (parseInt(b.order) || 999))
+  // Sort by order
+  const sortedOpinions = opinions.sort((a, b) => (parseInt(a.order) || 999) - (parseInt(b.order) || 999))
 
   return (
     <main className="min-h-screen bg-white">
@@ -40,11 +38,11 @@ export default async function OpinionPage() {
       {/* Opinion List - Text only, NYT style */}
       <section className="border-b-2 border-black">
         <div className="max-w-[900px] mx-auto px-6 py-16 md:py-24">
-          {opinions.length > 0 ? (
+          {sortedOpinions.length > 0 ? (
             <div className="space-y-16">
-              {opinions.map((opinion, index) => (
+              {sortedOpinions.map((opinion, index) => (
                 <article key={opinion.slug} className={index > 0 ? 'pt-16 border-t border-gray-200' : ''}>
-                  <Link href={`/story/${opinion.slug}`} className="group block">
+                  <Link href={`/opinion/${opinion.slug}`} className="group block">
                     <h2 className="font-black text-3xl md:text-4xl leading-[1.1] tracking-tight mb-4 group-hover:text-accent transition-colors">
                       {opinion.title}
                     </h2>
