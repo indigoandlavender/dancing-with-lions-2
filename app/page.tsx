@@ -34,10 +34,10 @@ export default async function Home() {
           </h1>
           <div className="mt-12 max-w-2xl">
             <p className="text-xl md:text-2xl leading-relaxed text-gray-600">
-              Tourism that doesn't hurt people, animals, or culture.
+              There is a way to travel that doesn't leave wreckage behind.
             </p>
             <p className="mt-4 text-lg text-gray-500">
-              The successes worth replicating. The threats worth naming. Looking at what's wrong in the face, without flinching.
+              Where the people who welcome you can still afford to live there. Where the animals you came to see aren't dying for your photograph. Where the culture you admire isn't being performed for your consumption.
             </p>
           </div>
         </div>
@@ -47,7 +47,7 @@ export default async function Home() {
       <section className="bg-black text-white py-8 border-b-2 border-black">
         <div className="max-w-[1400px] mx-auto px-6">
           <p className="text-sm md:text-base uppercase tracking-[0.2em] text-center">
-            The successes. The threats. Without flinching.
+            It exists. We find it. We name what threatens it.
           </p>
         </div>
       </section>
@@ -106,15 +106,13 @@ export default async function Home() {
         <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
           <div className="max-w-3xl">
             <h2 className="font-black text-[clamp(1.75rem,4vw,3rem)] leading-[1] tracking-tight uppercase mb-8">
-              Transform the industry
+              Is there a better way?
             </h2>
             <p className="text-xl leading-relaxed text-gray-700 mb-6">
-              Initiate the reflection. Transmute into a healthier ecosystem.
+              To travel without taking. To witness without extracting. To arrive as a guest — not a customer, not a content creator, not a problem to be managed — but as someone who came to see, and was seen in return.
             </p>
             <p className="text-lg leading-relaxed text-gray-600">
-              Tourism that doesn't burn through workers. That doesn't displace communities. 
-              That doesn't fund extinction disguised as conservation. It exists — and the industry 
-              can learn from it, if it's willing to look.
+              We document the places where this still happens. The hosts who remember what hospitality meant before it became an industry. The conservation that actually conserves. The communities that thrive because travelers came — not despite them.
             </p>
           </div>
         </div>

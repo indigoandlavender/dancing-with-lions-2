@@ -24,14 +24,13 @@ export default function AboutPage() {
               The Thesis
             </p>
             <h2 className="font-black text-[clamp(1.75rem,4vw,3rem)] leading-[1] tracking-tight uppercase mb-8">
-              The successes. The threats. Without flinching.
+              There is a way to travel that doesn't leave wreckage behind.
             </h2>
             <p className="text-xl md:text-2xl leading-relaxed text-gray-300">
-              Tourism that doesn't hurt people, animals, or culture. It exists. We document who's doing it right.
+              Where the host remembers your name and can still afford her rent. Where the elephant walks because she wants to, not because she's broken. Where the song you hear isn't performed — it's sung.
             </p>
             <p className="mt-6 text-lg leading-relaxed text-gray-400">
-              And we document the threats. The systems that extract. The models that break people. 
-              The conservation that's actually poaching in disguise. Looking at what's wrong in the face, without flinching.
+              It exists. We find it. And we name what threatens it — the extraction, the burnout, the hollow performance that's replaced genuine welcome. Without flinching.
             </p>
           </div>
         </div>
@@ -43,22 +42,20 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
-                The Mission
+                The Question
               </p>
               <h2 className="font-black text-[clamp(2rem,4vw,3.5rem)] leading-[0.95] tracking-tight uppercase">
-                People.<br />
-                Animals.<br />
-                Culture.
+                Is there a<br />
+                better way<br />
+                to care?
               </h2>
             </div>
             <div className="flex flex-col justify-center">
               <p className="text-xl md:text-2xl leading-relaxed text-gray-700 mb-6">
-                Tourism that doesn't hurt.
+                To welcome someone without burning out. To share a place without selling it. To build something that lasts.
               </p>
               <p className="text-lg leading-relaxed text-gray-600">
-                We document the successes — conservation models that work, hospitality cultures 
-                that sustain their people, heritage that lives instead of being extracted. 
-                And we document the threats — looking at what's wrong in the face, without flinching.
+                We find the people who know. The guesthouse owner who's been doing this for decades — and still loves it. The conservation project where rangers stay for life because they're paid enough to raise a family. The village that welcomes travelers and sends its children to university with the proceeds.
               </p>
             </div>
           </div>
@@ -70,18 +67,16 @@ export default function AboutPage() {
         <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
-              The Goal
+              The Work
             </p>
             <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-8">
-              Transform the industry
+              We document both
             </h2>
             <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              Initiate the reflection. Transmute into a healthier ecosystem.
+              The successes — so they can be found, studied, replicated. The host in Morocco whose guests return for decades. The conservancy in Namibia where communities earn more from protecting elephants than from poaching them. The craft that survived because someone valued the maker, not just the product.
             </p>
             <p className="text-lg leading-relaxed text-gray-600">
-              The tourism industry can change. Not through regulation or shame — through 
-              example. By documenting who's doing it right, we create a mirror. By naming 
-              the threats, we make them visible. The reflection is the first step.
+              And the threats — so they can be seen for what they are. The "eco-lodge" that displaced a village. The sanctuary that's actually a prison. The hospitality industry where 74% of workers leave every year because the job is unbearable.
             </p>
           </div>
         </div>
@@ -95,19 +90,16 @@ export default function AboutPage() {
               The Position
             </p>
             <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-8">
-              Without flinching
+              We don't look away
             </h2>
             <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              Dancing with Lions is not neutral. We document what's working — and we name what's broken. 
-              The conservation projects that are actually poaching operations. The cultural tourism that 
-              displaces communities. The hospitality industry burning through workers at 74% annual turnover.
+              From the conservation project that's actually poaching in disguise — the animals "protected" for trophy hunters, the communities excluded from land their ancestors walked. From the cultural tourism that empties villages of young people because there's no future in performing for visitors. From the 82% of hospitality workers who report facing abuse they can't answer.
             </p>
             <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              Eighty-two percent of hospitality workers face abuse. Wildlife tourism that funds extinction. 
-              Heritage sites that exclude the people who built them. We look at it. We document it. We don't look away.
+              And we don't look away from what works. The quiet places where hosts and guests still recognize each other as human. Where the animals are wild because wildness is the point. Where the culture is alive because the people who carry it are thriving.
             </p>
             <p className="text-lg leading-relaxed text-gray-700">
-              <strong>The successes exist. So do the threats. Both get named.</strong>
+              <strong>Both exist. Both get documented.</strong>
             </p>
           </div>
         </div>
