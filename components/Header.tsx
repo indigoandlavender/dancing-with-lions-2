@@ -28,17 +28,16 @@ export default function Header({ transparent = false }: HeaderProps) {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isTransparent 
-          ? 'bg-transparent border-transparent' 
-          : 'bg-white border-b border-gray-200'
+          ? 'bg-transparent' 
+          : 'bg-white border-b-2 border-black'
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-6 py-5 flex items-center justify-between">
+      <div className="max-w-[1400px] mx-auto px-6 py-4 flex items-center justify-between">
         <Link 
           href="/" 
-          className={`text-4xl font-black tracking-tight transition-colors duration-300 ${
+          className={`font-black text-2xl md:text-3xl tracking-tight uppercase transition-colors duration-300 ${
             isTransparent ? 'text-white' : 'text-black'
           }`}
-          style={{ fontFamily: 'Inter, sans-serif' }}
         >
           Dancing with Lions
         </Link>
@@ -46,24 +45,32 @@ export default function Header({ transparent = false }: HeaderProps) {
         <nav className="hidden md:flex items-center gap-8">
           <Link 
             href="/essays" 
-            className={`text-sm transition-colors ${
-              isTransparent ? 'text-white hover:text-white/70' : 'text-gray-600 hover:text-black'
+            className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors ${
+              isTransparent ? 'text-white hover:text-white/70' : 'text-black hover:text-accent'
             }`}
           >
             Essays
           </Link>
           <Link 
             href="/stories" 
-            className={`text-sm transition-colors ${
-              isTransparent ? 'text-white hover:text-white/70' : 'text-gray-600 hover:text-black'
+            className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors ${
+              isTransparent ? 'text-white hover:text-white/70' : 'text-black hover:text-accent'
             }`}
           >
             Stories
           </Link>
           <Link 
+            href="/opinion" 
+            className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors ${
+              isTransparent ? 'text-white hover:text-white/70' : 'text-black hover:text-accent'
+            }`}
+          >
+            Opinion
+          </Link>
+          <Link 
             href="/about" 
-            className={`text-sm transition-colors ${
-              isTransparent ? 'text-white hover:text-white/70' : 'text-gray-600 hover:text-black'
+            className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors ${
+              isTransparent ? 'text-white hover:text-white/70' : 'text-black hover:text-accent'
             }`}
           >
             About
@@ -76,38 +83,48 @@ export default function Header({ transparent = false }: HeaderProps) {
           aria-label="Toggle menu"
         >
           <div className="w-6 h-5 flex flex-col justify-between">
-            <span className={`w-full h-0.5 transition-all ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`w-full h-0.5 transition-all origin-center ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? 'rotate-45 translate-y-[9px]' : ''}`} />
             <span className={`w-full h-0.5 transition-all ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`w-full h-0.5 transition-all ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            <span className={`w-full h-0.5 transition-all origin-center ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? '-rotate-45 -translate-y-[9px]' : ''}`} />
           </div>
         </button>
       </div>
 
-      {menuOpen && (
-        <nav className="md:hidden bg-white border-t border-gray-200 px-6 py-4 space-y-4">
+      {/* Mobile Menu */}
+      <div className={`md:hidden bg-white border-b-2 border-black overflow-hidden transition-all duration-300 ${
+        menuOpen ? 'max-h-64' : 'max-h-0'
+      }`}>
+        <nav className="px-6 py-6 space-y-4">
           <Link 
             href="/essays" 
-            className="block text-lg"
+            className="block text-lg font-bold uppercase tracking-wider"
             onClick={() => setMenuOpen(false)}
           >
             Essays
           </Link>
           <Link 
             href="/stories" 
-            className="block text-lg"
+            className="block text-lg font-bold uppercase tracking-wider"
             onClick={() => setMenuOpen(false)}
           >
             Stories
           </Link>
           <Link 
+            href="/opinion" 
+            className="block text-lg font-bold uppercase tracking-wider"
+            onClick={() => setMenuOpen(false)}
+          >
+            Opinion
+          </Link>
+          <Link 
             href="/about" 
-            className="block text-lg"
+            className="block text-lg font-bold uppercase tracking-wider"
             onClick={() => setMenuOpen(false)}
           >
             About
           </Link>
         </nav>
-      )}
+      </div>
     </header>
   )
 }

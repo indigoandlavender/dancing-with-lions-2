@@ -3,8 +3,50 @@ import Script from 'next/script'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Dancing with Lions',
-  description: 'The stories underneath the map.',
+  metadataBase: new URL('https://dancingwithlions.com'),
+  title: {
+    default: 'Dancing with Lions — Cultural Intelligence',
+    template: '%s | Dancing with Lions',
+  },
+  description: 'Cultural intelligence for conservation, protection, and preservation. Documenting traditional knowledge systems across Africa, the Middle East, and Asia.',
+  keywords: [
+    'cultural intelligence',
+    'conservation',
+    'traditional knowledge',
+    'cultural heritage',
+    'Africa',
+    'Middle East',
+    'Asia',
+    'ethnography',
+    'preservation',
+  ],
+  authors: [{ name: 'Jacqueline Ng' }],
+  creator: 'Dancing with Lions',
+  publisher: 'Dancing with Lions',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://dancingwithlions.com',
+    siteName: 'Dancing with Lions',
+    title: 'Dancing with Lions — Cultural Intelligence',
+    description: 'Cultural intelligence for conservation, protection, and preservation. Documenting traditional knowledge systems across Africa, the Middle East, and Asia.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dancing with Lions — Cultural Intelligence',
+    description: 'Cultural intelligence for conservation, protection, and preservation.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/favicon.svg',
   },

@@ -142,9 +142,11 @@ export default async function StoryPage({ params }: PageProps) {
     ],
   };
 
+  const isOpinion = story.category === 'Opinion';
+
   return (
     <main className="min-h-screen bg-white">
-      <Header transparent={!!story.heroImage} />
+      <Header transparent={!!story.heroImage && !isOpinion} />
       
       {/* Schema Markup */}
       <script
@@ -156,8 +158,8 @@ export default async function StoryPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      {/* Hero Image */}
-      {story.heroImage && (
+      {/* Hero Image - skip for Opinion pieces */}
+      {story.heroImage && !isOpinion && (
         <section className="relative w-full h-[70vh] md:h-[80vh]">
           <Image
             src={story.heroImage}
@@ -177,13 +179,20 @@ export default async function StoryPage({ params }: PageProps) {
       )}
 
       {/* Article Header */}
-      <article className="max-w-3xl mx-auto px-6 py-16">
+      <article className={`max-w-3xl mx-auto px-6 ${isOpinion ? 'pt-32 pb-16' : 'py-16'}`}>
         {/* Breadcrumb Navigation */}
         <nav className="text-sm text-gray-600 mb-8" aria-label="Breadcrumb">
           <ol className="flex items-center gap-2">
             <li><Link href="/" className="hover:text-accent transition-colors">Home</Link></li>
             <li>/</li>
-            <li><Link href="/stories" className="hover:text-accent transition-colors">Stories</Link></li>
+            <li>
+              <Link 
+                href={isOpinion ? '/opinion' : '/stories'} 
+                className="hover:text-accent transition-colors"
+              >
+                {isOpinion ? 'Opinion' : 'Stories'}
+              </Link>
+            </li>
             <li>/</li>
             <li className="text-foreground">{story.title}</li>
           </ol>
@@ -197,17 +206,17 @@ export default async function StoryPage({ params }: PageProps) {
               <span>·</span>
             </>
           )}
-          {story.readTime && <span>{story.readTime} min read</span>}
+          {story.readTime && <span>{story.readTime} read</span>}
         </div>
 
         {/* Title */}
-        <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 leading-[0.95] tracking-[-0.02em] font-bold">
+        <h1 className={`font-black leading-[0.95] tracking-tight mb-4 ${isOpinion ? 'text-4xl md:text-5xl lg:text-6xl' : 'text-4xl md:text-5xl'}`}>
           {story.title}
         </h1>
 
         {/* Subtitle */}
         {story.subtitle && (
-          <p className="text-xl text-gray-600 italic mb-8">
+          <p className={`text-gray-600 mb-8 ${isOpinion ? 'text-xl md:text-2xl leading-relaxed' : 'text-xl italic'}`}>
             {story.subtitle}
           </p>
         )}
@@ -217,8 +226,8 @@ export default async function StoryPage({ params }: PageProps) {
         {/* Body */}
         <StoryBody content={story.body} />
 
-        {/* Gallery */}
-        {galleryImages.length > 0 && (
+        {/* Gallery - skip for Opinion pieces */}
+        {galleryImages.length > 0 && !isOpinion && (
           <>
             <hr className="border-gray-200 my-12" />
             <Gallery images={galleryImages} />
@@ -244,20 +253,20 @@ export default async function StoryPage({ params }: PageProps) {
         <hr className="border-gray-200 my-12" />
         <footer className="text-sm text-gray-600 flex flex-wrap gap-x-4 gap-y-1">
           {story.textBy && <span>Text — {story.textBy}</span>}
-          {story.imagesBy && <span>Images — {story.imagesBy}</span>}
+          {story.imagesBy && !isOpinion && <span>Images — {story.imagesBy}</span>}
           {story.year && <span>{story.year}</span>}
         </footer>
 
         {/* Back Link */}
         <div className="mt-12">
           <Link
-            href="/stories"
+            href={isOpinion ? '/opinion' : '/stories'}
             className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-accent transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <polyline points="10,3 5,8 10,13" />
             </svg>
-            All Stories
+            {isOpinion ? 'All Opinion' : 'All Stories'}
           </Link>
         </div>
       </article>
