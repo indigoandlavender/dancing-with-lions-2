@@ -1,6 +1,5 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import Link from 'next/link'
 
 export default function AboutPage() {
   return (
@@ -13,93 +12,110 @@ export default function AboutPage() {
           <h1 className="font-black text-[clamp(3rem,12vw,10rem)] leading-[0.85] tracking-[-0.04em] uppercase">
             About
           </h1>
+          <p className="mt-8 text-xl text-gray-600 max-w-2xl">
+            A think tank documenting the crisis in hospitality and tourism.
+          </p>
         </div>
       </section>
 
-      {/* The Thesis */}
+      {/* The Crisis */}
       <section className="border-b-2 border-black bg-black text-white">
         <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
-              The Thesis
+              The Crisis
             </p>
             <h2 className="font-black text-[clamp(1.75rem,4vw,3rem)] leading-[1] tracking-tight uppercase mb-8">
-              There is a way to travel that doesn't leave wreckage behind.
+              Something has to give.
             </h2>
-            <p className="text-xl md:text-2xl leading-relaxed text-gray-300">
-              Where the host remembers your name and can still afford her rent. Where the elephant walks because she wants to, not because she's broken. Where the song you hear isn't performed — it's sung.
+            <p className="text-xl leading-relaxed text-gray-300 mb-6">
+              100% annual turnover in hotels. 87% of hospitality workers bullied by customers. Tourist expectations rising — five-star experience at budget prices. Tourism bureaus chasing volume, GDP, the macro numbers. Overtourism drowning destinations. The coral dying. The lions disappearing.
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-gray-400">
-              It exists. We find it. And we name what threatens it — the extraction, the burnout, the hollow performance that's replaced genuine welcome. Without flinching.
+            <p className="text-lg leading-relaxed text-gray-400">
+              We are all responsible. Every single one of us — the travelers, the hosts, the platforms, the bureaus. Pointing fingers is futile.
             </p>
           </div>
         </div>
       </section>
 
-      {/* The Mission */}
+      {/* Who We Are */}
       <section className="border-b-2 border-black">
         <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
-                The Question
-              </p>
-              <h2 className="font-black text-[clamp(2rem,4vw,3.5rem)] leading-[0.95] tracking-tight uppercase">
-                Is there a<br />
-                better way<br />
-                to care?
-              </h2>
-            </div>
-            <div className="flex flex-col justify-center">
-              <p className="text-xl md:text-2xl leading-relaxed text-gray-700 mb-6">
-                To welcome someone without burning out. To share a place without selling it. To build something that lasts.
-              </p>
-              <p className="text-lg leading-relaxed text-gray-600">
-                We find the people who know. The guesthouse owner who's been doing this for decades — and still loves it. The conservation project where rangers stay for life because they're paid enough to raise a family. The village that welcomes travelers and sends its children to university with the proceeds.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Goal */}
-      <section className="border-b-2 border-black bg-gray-100">
-        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
-              The Work
+              Who We Are
             </p>
             <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-8">
-              We document both
+              Observers
             </h2>
             <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              The successes — so they can be found, studied, replicated. The host in Morocco whose guests return for decades. The conservancy in Namibia where communities earn more from protecting elephants than from poaching them. The craft that survived because someone valued the maker, not just the product.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-600">
-              And the threats — so they can be seen for what they are. The "eco-lodge" that displaced a village. The sanctuary that's actually a prison. The hospitality industry where 74% of workers leave every year because the job is unbearable.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* The Position */}
-      <section className="border-b-2 border-black bg-gray-100">
-        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
-          <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
-              The Position
-            </p>
-            <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-8">
-              We don't look away
-            </h2>
-            <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              From the conservation project that's actually poaching in disguise — the animals "protected" for trophy hunters, the communities excluded from land their ancestors walked. From the cultural tourism that empties villages of young people because there's no future in performing for visitors. From the 82% of hospitality workers who report facing abuse they can't answer.
+              Dancing with Lions doesn't pretend to have the solution. We are observers.
             </p>
             <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              And we don't look away from what works. The quiet places where hosts and guests still recognize each other as human. Where the animals are wild because wildness is the point. Where the culture is alive because the people who carry it are thriving.
+              Our founding members work in hospitality and feel the pain. We are travelers sick of the performative culture — the hospitality that's on the menu but never on the plate.
             </p>
             <p className="text-lg leading-relaxed text-gray-700">
-              <strong>Both exist. Both get documented.</strong>
+              We gather the data nobody else is compiling. We document what we see. We ask if there's a better way.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* What We Do */}
+      <section className="border-b-2 border-black bg-gray-100">
+        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
+              What We Do
+            </p>
+            <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-8">
+              Research. Data. The Question.
+            </h2>
+            <div className="space-y-8">
+              <div>
+                <h3 className="font-bold text-xl mb-2">Research</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Original data nobody else is compiling. Sentiment analysis from Booking, Airbnb, TripAdvisor reviews. Forum scraping — what hosts and workers are really saying. Industry deep-dives. The numbers behind the crisis.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-bold text-xl mb-2">Index</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Metrics we track over time. Host burnout. Overtourism pressure. Greenwash scores. Living data, updated regularly, so we can see what's getting better and what's getting worse.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-bold text-xl mb-2">Stories</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Visual documentation of the research. Beautiful writing, beautiful images. The data made human.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-bold text-xl mb-2">Opinion</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Positions backed by data. What the research means. What's broken and what might work.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The Question */}
+      <section className="border-b-2 border-black">
+        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
+              The Question
+            </p>
+            <h2 className="font-black text-[clamp(2rem,5vw,4rem)] leading-[0.95] tracking-tight uppercase mb-8">
+              Is there a better way?
+            </h2>
+            <p className="text-xl leading-relaxed text-gray-700 mb-6">
+              Travel is not just Instagram filtered photos. Flip them over and you'll see the tears behind the smiles. The housekeeper who can't afford rent. The guide performing enthusiasm for the hundredth time. The reef they're standing on, bleaching.
+            </p>
+            <p className="text-xl leading-relaxed text-gray-700">
+              There must be a better way. To travel. To host. To share a place without destroying it. To welcome someone without burning out. We don't have the answer. But we're paying attention to the people who might.
             </p>
           </div>
         </div>
@@ -116,110 +132,13 @@ export default function AboutPage() {
               Why "Dancing with Lions"
             </h2>
             <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              The Barbary lion vanished from the Atlas Mountains in the 1960s. Forty survive 
-              in Rabat Zoo — descendants of the royal menagerie, kept for centuries. The last 
-              photograph of a wild Barbary lion was taken in 1925 by a French pilot on the 
-              Casablanca-Dakar route. He looked down, saw a lion walking through the rocks, 
-              and photographed the end of an era.
+              The Barbary lion vanished from the Atlas Mountains in the 1960s. Forty survive in Rabat Zoo — descendants of the royal menagerie. The last photograph of a wild Barbary lion was taken in 1925 by a French pilot. He looked down, saw a lion walking through the rocks, and photographed the end of an era.
             </p>
             <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              But that's not the end of the story. Conservationists are now working to return 
-              the Barbary lion to the Atlas. The extinct is becoming the returning.
+              But that's not the end of the story. Conservationists are working to return the Barbary lion to the Atlas. The extinct is becoming the returning.
             </p>
             <p className="text-lg leading-relaxed text-gray-700">
-              "Dancing with lions" means engaging with power and culture on its own terms. 
-              Not conquering. Not saving. Not romanticizing. Witnessing — respecting the 
-              rhythm without imposing your own.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* The Scope */}
-      <section className="border-b-2 border-black">
-        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
-          <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
-            The Scope
-          </p>
-          <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-12">
-            What We Cover
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-bold text-lg mb-3">North Africa</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Morocco, Tunisia, Egypt. Irrigation systems, desert navigation, Islamic geometry, textiles.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-3">East Africa</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Kenya, Ethiopia, Tanzania. Coffee origin, pastoralist cultures, conservation models, Swahili trade.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-3">Southern Africa</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Namibia, Botswana, South Africa. Rewilding, community conservation, San knowledge.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-3">West Africa</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Senegal, Mali, Ghana. Griots, gold routes, indigo dyeing, kente, music lineages.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-3">Middle East</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Oman, Jordan, Yemen. Frankincense, Bedouin navigation, falaj water systems, pearl diving.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-3">Central Asia</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Uzbekistan, Kyrgyzstan, Tajikistan. Silk Road crafts, ceramics, felt-making, eagle hunting.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-3">South Asia</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Pakistan, India, Nepal. Himalayan routes, Kashmir textiles, block printing, spice systems.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg mb-3">Southeast Asia</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Indonesia, Vietnam, Myanmar. Rice engineering, lacquerware, fermentation, boat-building.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Founder */}
-      <section className="border-b-2 border-black">
-        <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
-          <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-6">
-              Founder
-            </p>
-            <h2 className="font-black text-3xl md:text-4xl uppercase tracking-tight mb-8">
-              Jacqueline Ng
-            </h2>
-            <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              Mauritian-born. Canadian-trained. Based in Marrakech.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-700 mb-6">
-              Thirteen years in Morocco. Former marketing executive turned cultural intelligence 
-              researcher. Documenting tourism that doesn't hurt — and building it herself.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-700">
-              Her work includes <Link href="https://houseofweaves.com" className="text-accent hover:underline">House of Weaves</Link> (ethnographic 
-              textile archive), <Link href="https://slowmorocco.com" className="text-accent hover:underline">Slow World</Link> (cultural journeys 
-              across five countries), and <Link href="/stories" className="text-accent hover:underline">the documentation archive</Link> (70+ 
-              stories of systems, returns, and traditions).
+              "Dancing with lions" means engaging with something powerful on its own terms. Not conquering. Not saving. Not romanticizing. Just paying attention — and asking if there's a better way.
             </p>
           </div>
         </div>
@@ -250,7 +169,7 @@ export default function AboutPage() {
             </div>
             <div className="flex flex-col justify-center">
               <p className="text-lg leading-relaxed text-gray-600">
-                For press inquiries, collaboration proposals, or research partnerships.
+                For press inquiries, data partnerships, research collaboration, or if you've found a better way and want to share it.
               </p>
             </div>
           </div>
@@ -265,7 +184,7 @@ export default function AboutPage() {
               Field Notes
             </h2>
             <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-              Occasional dispatches from the archive. No spam. Just stories worth your time.
+              Research updates. New data. The question, ongoing. No spam.
             </p>
             <form className="flex gap-4 flex-col sm:flex-row">
               <input 

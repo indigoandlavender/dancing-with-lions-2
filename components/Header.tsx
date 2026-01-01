@@ -44,12 +44,20 @@ export default function Header({ transparent = false }: HeaderProps) {
 
         <nav className="hidden md:flex items-center gap-8">
           <Link 
-            href="/essays" 
+            href="/research" 
             className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors ${
               isTransparent ? 'text-white hover:text-white/70' : 'text-black hover:text-accent'
             }`}
           >
-            Essays
+            Research
+          </Link>
+          <Link 
+            href="/indices" 
+            className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors ${
+              isTransparent ? 'text-white hover:text-white/70' : 'text-black hover:text-accent'
+            }`}
+          >
+            Index
           </Link>
           <Link 
             href="/stories" 
@@ -96,11 +104,18 @@ export default function Header({ transparent = false }: HeaderProps) {
       }`}>
         <nav className="px-6 py-6 space-y-4">
           <Link 
-            href="/essays" 
+            href="/research" 
             className="block text-lg font-bold uppercase tracking-wider"
             onClick={() => setMenuOpen(false)}
           >
-            Essays
+            Research
+          </Link>
+          <Link 
+            href="/indices" 
+            className="block text-lg font-bold uppercase tracking-wider"
+            onClick={() => setMenuOpen(false)}
+          >
+            Index
           </Link>
           <Link 
             href="/stories" 

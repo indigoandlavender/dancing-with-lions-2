@@ -324,3 +324,116 @@ export async function getOpinionBySlug(slug: string): Promise<Opinion | null> {
   const opinions = await getOpinions();
   return opinions.find((opinion) => opinion.slug === slug) || null;
 }
+
+// ==================== RESEARCH ====================
+
+export interface Research {
+  slug: string;
+  title: string;
+  subtitle: string;
+  category: string;
+  excerpt: string;
+  body: string;
+  data_sources: string;
+  key_findings: string;
+  methodology: string;
+  published: string;
+  featured: string;
+  order: string;
+}
+
+export async function getResearch(): Promise<Research[]> {
+  try {
+    const auth = await getAuthClient();
+    const sheets = google.sheets({ version: 'v4', auth });
+    
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: 'Research!A:L',
+    });
+
+    const rows = response.data.values;
+    if (!rows || rows.length < 2) {
+      console.log('No research data found');
+      return [];
+    }
+
+    const headers = rows[0];
+    
+    const research = rows.slice(1).map((row) => {
+      const item: Record<string, string> = {};
+      headers.forEach((header: string, index: number) => {
+        let value = row[index] || '';
+        if (typeof value === 'string') {
+          value = value.replace(/<br>/g, '\n');
+        }
+        item[header] = value;
+      });
+      return item as unknown as Research;
+    });
+
+    const filtered = research.filter((item) => {
+      const pub = String(item.published || '').toLowerCase().trim();
+      return pub === 'true' || pub === 'yes' || pub === '1';
+    });
+    
+    return filtered;
+  } catch (error) {
+    console.error('Error fetching research:', error);
+    return [];
+  }
+}
+
+export async function getResearchBySlug(slug: string): Promise<Research | null> {
+  const research = await getResearch();
+  return research.find((item) => item.slug === slug) || null;
+}
+
+// ==================== INDEX ====================
+
+export interface Index {
+  index_id: string;
+  name: string;
+  description: string;
+  current_value: string;
+  previous_value: string;
+  change: string;
+  data_sources: string;
+  methodology: string;
+  last_updated: string;
+  published: string;
+}
+
+export async function getIndices(): Promise<Index[]> {
+  try {
+    const auth = await getAuthClient();
+    const sheets = google.sheets({ version: 'v4', auth });
+    
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: 'Index!A:J',
+    });
+
+    const rows = response.data.values;
+    if (!rows || rows.length < 2) {
+      console.log('No index data found');
+      return [];
+    }
+
+    const headers = rows[0];
+    
+    const indices = rows.slice(1).map((row) => {
+      const item: Record<string, string> = {};
+      headers.forEach((header: string, index: number) => {
+        item[header] = row[index] || '';
+      });
+      return item as unknown as Index;
+    });
+
+    // Return all indices (even unpublished ones for now, to show "in progress")
+    return indices;
+  } catch (error) {
+    console.error('Error fetching indices:', error);
+    return [];
+  }
+}
